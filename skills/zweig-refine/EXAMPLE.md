@@ -1,6 +1,6 @@
 # Example: the loop in action
 
-Companion to `SKILL.md` in this directory, which defines the loop, the fresh-reader exemption threshold, and the "never cut" list. This is a real transcript of that loop running end to end, kept here so the mechanism is verifiable, not just asserted.
+Companion to `SKILL.md` in this directory, which defines the loop and the fresh-reader exemption threshold (the "never cut" list lives in `../STYLE.md`). This is a real transcript of that loop running end to end, kept here so the mechanism is verifiable, not just asserted.
 
 ## Starting draft
 

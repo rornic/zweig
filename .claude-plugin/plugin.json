@@ -1,7 +1,7 @@
 {
   "name": "zweig",
   "description": "Writing skills based on Stefan Zweig's described process: zweig-write drafts prose that's already dense, zweig-refine runs the cut-draft-repeat loop to condense it further.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Rory Nickolls"
   },

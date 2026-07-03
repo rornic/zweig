@@ -11,6 +11,7 @@ A self-hosted Claude Code plugin marketplace shipping two writing skills, `zweig
 - `.claude-plugin/plugin.json` — plugin manifest, the single source of truth for `version`.
 - `.claude-plugin/marketplace.json` — marketplace listing. Does not duplicate `version`; plugin.json wins under strict mode.
 - `skills/<name>/SKILL.md` — skill definition (YAML frontmatter + instructions).
+- `skills/STYLE.md` — style rules shared by both skills (punctuation, what to skip, what never to cut). Both SKILL.md files read it; edit rules here, not in either skill.
 - `skills/zweig-refine/EXAMPLE.md` — worked transcript of the refine loop.
 
 ## Making changes
