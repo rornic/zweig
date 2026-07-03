@@ -31,9 +31,9 @@ A pass that makes zero Edit calls is the only valid signal of convergence. There
 
 ## Punctuation
 
-- No em dashes (—). Use a period, a comma, parentheses, or a colon instead.
+- No em dashes (—). Use a period, a comma, or parentheses first. A colon works too, but treat it as the last option, not the default.
 - Semicolons are rare. Prefer a comma or two sentences unless the clauses are inseparable.
-- One point per paragraph. A colon can introduce that point, but needing a second colon in the same paragraph means it's carrying more than one point. Split it.
+- One point per paragraph. At most one colon per paragraph, introducing that point. A paragraph that already has one doesn't get a second, split it instead.
 
 ## Fresh-reader gate
 
