@@ -16,7 +16,7 @@ Refinement is a loop of real edits against a real file, not a pass reasoned abou
 ## The loop
 
 1. Read the working file in full.
-2. Cut: make an Edit call for every sentence, bullet, or word that can be removed or reworded without losing precise meaning, including rewording that says the same thing in fewer or plainer words even if nothing is deleted. Throw ballast overboard, favoring fewer, denser points over breadth, and cut self-descriptive or boilerplate lines. In the same pass, fix any em dash, stray semicolon, hedge word, throat-clearing opener, or boilerplate transition, whether it was already there or one of your own edits just introduced it (see "Skip on the way in" and "Punctuation" below). See "Cut slack, not substance" for what's off-limits. A cut only counts if it's a real Edit call, not reasoning about one without making it.
+2. Cut and rewrite: make an Edit call for every sentence, bullet, or word that can be removed, reworded, or rewritten without losing precise meaning. Three moves count here: cutting words that add nothing, rewording to say the same thing in fewer or plainer words, and rewriting a sentence outright when the same point lands better in a different construction (a stronger verb, an active subject, a reordered clause), even when the result isn't shorter. Throw ballast overboard, favoring fewer, denser points over breadth, and cut self-descriptive or boilerplate lines. In the same pass, fix any em dash, stray semicolon, hedge word, throat-clearing opener, or boilerplate transition, whether it was already there or one of your own edits just introduced it (see "Skip on the way in" and "Punctuation" below). See "Cut slack, not substance" for what's off-limits, and "Rewrite, don't pad" for the line between a full rewrite and scope creep. A cut, reword, or rewrite only counts if it's a real Edit call, not reasoning about one without making it.
 3. If step 2 made at least one edit and you're under 4 passes total, go back to step 1 for a new pass on the updated file. Otherwise, stop and move to the structural variance pass below.
 
 A pass that makes zero Edit calls is the only valid signal of convergence. There's no separate ledger to keep: the edit history on the working file is the record.
@@ -59,9 +59,15 @@ Skip this gate only if the draft is a single line or a single sentence (a commit
 - If the fresh reader is missing information it needed, a cut went too far into substance: restore it with one corrective edit, then stop. Don't re-run the gate.
 - If the fresh reader has no substantive complaint, the draft is done.
 
+## Rewrite, don't pad
+
+A rewrite changes how a point is said, not what it says. Before replacing a sentence outright, check that the new version makes the same claim, only better argued, ordered, or placed.
+
+If the rewrite comes out longer than the original, that length has to buy back something concrete, like a claim that was vague now having a real subject and verb doing the work, not a new example, qualification, or piece of context the draft didn't already contain. Adding information to make a rewrite land is drafting, not refining. If that's what it takes, leave the sentence reworded rather than rewritten, or cut it.
+
 ## Cut slack, not substance
 
-The test for each candidate cut: remove or reword it, does the precise meaning survive? In prose, usually yes. In technical writing, the word you want to cut is sometimes the whole point.
+The test for each candidate cut or rewrite: remove, reword, or restructure it, does the precise meaning survive? In prose, usually yes. In technical writing, the word you want to cut is sometimes the whole point.
 
 Never cut from technical writing:
 
