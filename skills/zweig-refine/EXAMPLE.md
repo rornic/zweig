@@ -6,9 +6,7 @@ Companion to `SKILL.md` in this directory, which defines the loop, the fresh-rea
 
 A deliberately padded paragraph, written to a real file:
 
-```
-We wanted to let you know that, in terms of the deployment process, the new deployment process now requires that you first run the build step before you can proceed to run the actual deploy step, which is a change from how it used to work before this change was made. Additionally, it should also be noted that the build step, which is a new step, will take approximately five minutes or so to complete on average, and during this time you should just wait for it to finish before doing anything else, since trying to deploy before the build step has finished will simply result in an error message being shown to you.
-```
+> We wanted to let you know that, in terms of the deployment process, the new deployment process now requires that you first run the build step before you can proceed to run the actual deploy step, which is a change from how it used to work before this change was made. Additionally, it should also be noted that the build step, which is a new step, will take approximately five minutes or so to complete on average, and during this time you should just wait for it to finish before doing anything else, since trying to deploy before the build step has finished will simply result in an error message being shown to you.
 
 105 words, one idea.
 
@@ -16,9 +14,7 @@ We wanted to let you know that, in terms of the deployment process, the new depl
 
 Read the file, then cut every removable sentence and phrase with real Edit calls, targeting throat-clearing ("We wanted to let you know that"), restated framing ("which is a change from how it used to work before this change was made"), and hedge words ("approximately", "or so", "on average").
 
-```
-Deployment now requires a build step before the deploy step. The build step takes about five minutes; deploying before it finishes will show an error message.
-```
+> Deployment now requires a build step before the deploy step. The build step takes about five minutes; deploying before it finishes will show an error message.
 
 26 words. One edit made. The loop continues.
 
@@ -26,9 +22,7 @@ Deployment now requires a build step before the deploy step. The build step take
 
 Reread the updated file. "The build step" appears twice. The two sentences can merge without losing anything.
 
-```
-Deployment now requires a build step (~5 min) before the deploy step. Deploying before the build finishes shows an error.
-```
+> Deployment now requires a build step (~5 min) before the deploy step. Deploying before the build finishes shows an error.
 
 One more edit, so the loop runs again.
 
@@ -48,9 +42,7 @@ It flagged something real: "shows an error" is ambiguous. Does the deploy get bl
 
 One edit, addressing the flagged gap, then stop, with no re-running the loop or the gate:
 
-```
-Deployment now requires a build step (~5 min) before the deploy step. The deploy step is blocked with an error until the build finishes.
-```
+> Deployment now requires a build step (~5 min) before the deploy step. The deploy step is blocked with an error until the build finishes.
 
 ## Why this matters
 
