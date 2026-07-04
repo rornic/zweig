@@ -19,7 +19,7 @@ A self-hosted plugin marketplace for both Claude Code and Codex CLI, shipping tw
 ## Making changes
 
 - Run `claude plugin validate . --strict` before committing changes to either Claude manifest.
-- Bump `version` in `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` together when a change should reach existing installs; each plugin format only updates when its own manifest's version changes. Prefer running the release workflow over bumping by hand; it keeps both files, the tag, and the GitHub release in sync in one step.
+- Cut a release with the `.github/workflows/release.yml` workflow (Actions tab, pick patch/minor/major) when a change should reach existing installs; it bumps both `plugin.json` versions, tags, and creates the GitHub release together.
 - Any non-trivial prose here (README, SKILL.md instructions) should go through this repo's own `zweig-write` and `zweig-refine` skills before it ships.
 - Don't add a shared file that a `SKILL.md` instructs the model to `Read` at runtime: that `Read` call needs permission approval on every install, every time the skill fires, for every user. Content a skill always needs (style rules, cut criteria) must be inlined directly in that skill's own `SKILL.md`, even if that duplicates it across skills. Companion files (like `EXAMPLE.md`) are fine only for material a skill references but doesn't strictly require every run.
 - Commit messages: lowercase conventional commits (e.g. `fix: ...`, `feat: ...`).
