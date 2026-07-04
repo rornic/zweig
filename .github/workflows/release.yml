@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute next version
+        id: version
+        run: |
+          claude_version=$(jq -r '.version' .claude-plugin/plugin.json)
+          codex_version=$(jq -r '.version' .codex-plugin/plugin.json)
+          if [ "$claude_version" != "$codex_version" ]; then
+            echo "plugin.json versions are out of sync: claude=$claude_version codex=$codex_version" >&2
+            exit 1
+          fi
+
+          IFS='.' read -r major minor patch <<< "$claude_version"
+          case "${{ inputs.bump }}" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+          esac
+          new_version="$major.$minor.$patch"
+
+          if git rev-parse "v$new_version" >/dev/null 2>&1; then
+            echo "tag v$new_version already exists" >&2
+            exit 1
+          fi
+
+          echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
+
+      - name: Bump manifests
+        run: |
+          new_version="${{ steps.version.outputs.new_version }}"
+          for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
+            sed -i -E "s/\"version\": \"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"$new_version\"/" "$manifest"
+            jq empty "$manifest"
+          done
+
+      - name: Commit and tag
+        run: |
+          new_version="${{ steps.version.outputs.new_version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .claude-plugin/plugin.json .codex-plugin/plugin.json
+          git commit -m "chore: bump zweig plugin to $new_version"
+          git tag "v$new_version"
+          git push origin HEAD:main
+          git push origin "v$new_version"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          new_version="${{ steps.version.outputs.new_version }}"
+          gh release create "v$new_version" --title "v$new_version" --generate-notes
