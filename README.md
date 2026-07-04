@@ -1,13 +1,13 @@
 # zweig
 
-Writing skills for Claude Code, based on Stefan Zweig's drafting process described in The World of Yesterday: write dense, then cut to intensify.
+Writing skills for Claude Code and Codex CLI, based on Stefan Zweig's drafting process described in The World of Yesterday. Write dense, then cut to intensify.
 
 ## What's included
 
 - **zweig-write**: drafts prose that's already dense, so zweig-refine below needs fewer passes.
 - **zweig-refine**: the cut-draft-repeat loop. Reads a working draft, cuts slack without cutting substance, repeats until a pass makes zero edits (capped at 4 passes), then runs a fresh-reader gate: a separate subagent, blind to the conversation that produced the draft, checks the draft text itself for confusion or missing information.
 
-Neither needs a slash command: Claude loads them automatically, `zweig-write` before drafting any prose, `zweig-refine` once a draft exists. See [`skills/zweig-refine/EXAMPLE.md`](skills/zweig-refine/EXAMPLE.md) for a worked transcript of the refine loop end to end.
+Neither needs a slash command. `zweig-write` loads automatically before drafting any prose, then asks whether to run `zweig-refine` on the result. `zweig-refine` also runs any other time you ask for it directly. See [`skills/zweig-refine/EXAMPLE.md`](skills/zweig-refine/EXAMPLE.md) for a worked transcript of the refine loop end to end.
 
 ## Install
 

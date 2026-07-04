@@ -7,7 +7,7 @@ description: Write a first draft that's already dense. Load before drafting any 
 
 Write every sentence to survive the question zweig-refine asks later: cut this, does the reader lose something, or just words? A denser draft means that loop converges faster.
 
-zweig-refine's loop and fresh-reader gate catch more than this skill can, since a drafting context can't see its own blind spots. It's an optional deeper pass: mention it's available, and run it only on explicit request.
+zweig-refine's loop and fresh-reader gate catch more than this skill can, since a drafting context can't see its own blind spots. Once a draft is ready, ask the user whether to run zweig-refine on it next, and run it only if they say yes.
 
 ## Before drafting
 
