@@ -1,0 +1,13 @@
+{
+  "name": "zweig",
+  "description": "Writing skills based on Stefan Zweig's described process: zweig-write drafts prose that's already dense, zweig-refine runs the cut-draft-repeat loop to condense it further.",
+  "version": "1.0.8",
+  "author": {
+    "name": "Rory Nickolls"
+  },
+  "homepage": "https://github.com/rornic/zweig",
+  "repository": "https://github.com/rornic/zweig",
+  "license": "MIT",
+  "keywords": ["writing", "editing", "prose", "documentation", "drafting"],
+  "skills": "./skills/"
+}

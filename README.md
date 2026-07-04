@@ -11,10 +11,20 @@ Neither needs a slash command: Claude loads them automatically, `zweig-write` be
 
 ## Install
 
+Claude Code:
+
 ```
 /plugin marketplace add rornic/zweig
 /plugin install zweig@zweig
 ```
+
+Codex CLI (requires Codex CLI >= 0.142.0):
+
+```
+codex plugin marketplace add rornic/zweig
+```
+
+Then install `zweig` from the plugins list (`/plugins` in the CLI, or the Plugins panel in the app).
 
 ## The quote
 

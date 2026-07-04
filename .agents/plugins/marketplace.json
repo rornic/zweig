@@ -1,0 +1,20 @@
+{
+  "name": "zweig",
+  "interface": {
+    "displayName": "Zweig"
+  },
+  "plugins": [
+    {
+      "name": "zweig",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
