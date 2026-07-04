@@ -1,6 +1,6 @@
 ---
 name: zweig-refine
-description: The cut-draft-repeat refinement loop, taken from Stefan Zweig's own described writing process. Apply once a first draft of any prose exists (technical documentation, PR descriptions, commit messages, code comments, briefs, Slack messages), to condense it before it ships.
+description: The cut-draft-repeat refinement loop from Stefan Zweig's own writing process. Run only when explicitly asked to refine, tighten, or cut a draft. zweig-write already front-loads density for every draft. Applies regardless of draft length, except the fresh-reader gate, which has its own short-draft exception handled inside the skill.
 ---
 
 # Zweig Refine

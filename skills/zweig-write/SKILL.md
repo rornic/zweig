@@ -1,13 +1,13 @@
 ---
 name: zweig-write
-description: Write a first draft that's already dense, so the zweig-refine loop converges in as few passes as possible. Load before starting a first draft of any prose (technical documentation, PR descriptions, commit messages, code comments, briefs, Slack messages). Does not replace zweig-refine: hand the draft to that skill once it exists.
+description: Write a first draft that's already dense. Load before drafting any prose: technical docs, PR descriptions, commit messages, code comments, briefs, Slack messages, even a single sentence. No triviality exception. zweig-refine is a separate, deeper cutting pass, run only on explicit request.
 ---
 
 # Zweig Write
 
 Write every sentence to survive the question zweig-refine asks later: cut this, does the reader lose something, or just words? A denser draft means that loop converges faster.
 
-Hand every non-trivial draft to zweig-refine once it exists. This skill only front-loads the cutting: the loop and fresh-reader gate still run, because a drafting context can't see its own blind spots.
+zweig-refine's loop and fresh-reader gate catch more than this skill can, since a drafting context can't see its own blind spots. It's an optional deeper pass: mention it's available, and run it only on explicit request.
 
 ## Before drafting
 
