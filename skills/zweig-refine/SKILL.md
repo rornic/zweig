@@ -1,6 +1,6 @@
 ---
 name: zweig-refine
-description: The cut-draft-repeat refinement loop from Stefan Zweig's own writing process. Run only when explicitly asked to refine, tighten, or cut a draft. zweig-write already front-loads density for every draft. Applies regardless of draft length, except the fresh-reader gate, which has its own short-draft exception handled inside the skill.
+description: The cut-draft-repeat refinement loop from Stefan Zweig's own writing process. Run only when explicitly asked to refine, tighten, or cut a draft. zweig-write already front-loads density for every draft. Applies regardless of draft length, except the structural variance pass and fresh-reader gate, each of which has its own short-draft exception handled inside the skill.
 ---
 
 # Zweig Refine
@@ -17,7 +17,7 @@ Refinement is a loop of real edits against a real file, not a pass reasoned abou
 
 1. Read the working file in full.
 2. Cut: make an Edit call for every sentence, bullet, or word that can be removed or reworded without losing precise meaning, including rewording that says the same thing in fewer or plainer words even if nothing is deleted. Throw ballast overboard, favoring fewer, denser points over breadth, and cut self-descriptive or boilerplate lines. In the same pass, fix any em dash, stray semicolon, hedge word, throat-clearing opener, or boilerplate transition, whether it was already there or one of your own edits just introduced it (see "Skip on the way in" and "Punctuation" below). See "Cut slack, not substance" for what's off-limits. A cut only counts if it's a real Edit call, not reasoning about one without making it.
-3. If step 2 made at least one edit and you're under 4 passes total, go back to step 1 for a new pass on the updated file. Otherwise, stop.
+3. If step 2 made at least one edit and you're under 4 passes total, go back to step 1 for a new pass on the updated file. Otherwise, stop and move to the structural variance pass below.
 
 A pass that makes zero Edit calls is the only valid signal of convergence. There's no separate ledger to keep: the edit history on the working file is the record.
 
@@ -35,6 +35,16 @@ A pass that makes zero Edit calls is the only valid signal of convergence. There
 - Colons are a last resort, not a default way to introduce an example or elaboration. Try a period or comma before reaching for one.
 - Semicolons are rare. Prefer a comma or two sentences unless the clauses are inseparable.
 - One point per paragraph.
+
+## Structural variance pass
+
+Run this once, after the cut loop converges and before the fresh-reader gate. Skip it for a single paragraph or fewer than three parallel sections. There's nothing to vary against.
+
+The cut loop tests each sentence in isolation, so a draft can converge while every paragraph still opens the same way, runs the same length, and follows the same claim-then-mechanism-then-payoff order. That repetition only shows up scanning the whole draft at once, not sentence by sentence.
+
+Reread the draft as a sequence. Vary at least one paragraph or list item that repeats the same opening or length as its neighbors. Merge two points into one paragraph, front a clause instead of leading with the topic sentence, or drop the topic sentence and let the claim land mid-paragraph. Change enough that the sequence stops reading like a fill-in-the-blank template. Don't rewrite every instance. That reintroduces the same problem in a new shape.
+
+Don't loop this against the cut loop. Fixing rhythm can add back a word the cut loop already removed, and re-running the cut loop on top of a structural edit risks flattening the variation back out.
 
 ## Fresh-reader gate
 
