@@ -28,6 +28,7 @@ A pass that makes zero Edit calls is the only valid signal of convergence. There
 - Hedge words that carry no information ("approximately", "generally", "as needed", "or so").
 - The same point twice in different phrasing for emphasis.
 - Boilerplate transitions ("Additionally,", "Furthermore,", "It should also be noted that").
+- A negation tacked onto a positive claim that already rules it out ("It's sunny out, not rainy."). Cut the negated half unless it names a real alternative the reader would otherwise expect (a default, a prior behavior, a competing option).
 
 ## Punctuation
 
