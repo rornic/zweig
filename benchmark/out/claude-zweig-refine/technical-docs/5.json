@@ -1,0 +1,125 @@
+{
+  "id": "consistent-hashing",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-refine",
+  "prompt": "Explain consistent hashing and why it's used for distributing keys across a cache cluster instead of simple modulo hashing.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 30,
+    "cache_creation_input_tokens": 38955,
+    "cache_read_input_tokens": 656740,
+    "output_tokens": 13005,
+    "total_tokens": 708730
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 139142,
+    "num_turns": 23,
+    "stop_reason": "end_turn",
+    "session_id": "7e3b1e21-5988-4ac0-9af7-b3f90afddadf",
+    "total_cost_usd": 0.44330274999999997,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 38955,
+      "cache_read_input_tokens": 656740,
+      "output_tokens": 13005,
+      "output_tokens_details": {
+        "thinking_tokens": 6026
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38955,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 845,
+          "cache_read_input_tokens": 54605,
+          "cache_creation_input_tokens": 1019,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1019
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1566,
+        "outputTokens": 1319,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 14291,
+        "webSearchRequests": 0,
+        "costUSD": 0.02602475,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 30,
+        "outputTokens": 13005,
+        "cacheReadInputTokens": 656740,
+        "cacheCreationInputTokens": 38955,
+        "webSearchRequests": 0,
+        "costUSD": 0.417278,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "A cache cluster splits its key space across N nodes so no single machine holds everything. The naive approach hashes each key and takes `hash(key) mod N` to pick a node. It's simple and spreads keys evenly, but it collapses the moment N changes.\n\nAdd or remove a node and N changes, so `mod N` remaps nearly every key. A cluster going from 4 nodes to 5 sends roughly 80% of keys to a different owner. Every one of those keys is now a cache miss. The value sits on the old node, but lookups query the new one and find nothing. At cluster scale, that's a thundering herd against the backing database just as the cluster is already in flux from a scaling or failover event.\n\nConsistent hashing fixes this by hashing nodes and keys onto the same ring, typically 0 to 2^32-1, using MD5 or the top 32 bits of SHA-1. Each node's hash places it at a point on the ring. To find a key's owner, hash the key and walk clockwise to the first node encountered. Ownership is a proximity relationship on the ring, not an arithmetic function of the current node count.\n\nThis changes the blast radius of a membership change. Adding a node only remaps the keys between it and its counterclockwise neighbor, the ones that now find a closer node first. Removing a node only remaps that node's own keys, which fall to the next one clockwise. Everyone else's key-to-node mapping is untouched. Expected remap fraction is roughly 1/N for an addition, not a near-total reshuffle. A removal costs closer to 2/N, since the departing node's whole share lands on one neighbor instead of splitting across the cluster.\n\nPlain ring hashing has its own problem. With few nodes, hash points cluster unevenly and some nodes end up owning a disproportionate share of the ring. The standard fix is virtual nodes, hashing each physical node to dozens or hundreds of points on the ring instead of one. More points per node smooths the distribution and means a single node's failure spreads its load across many neighbors instead of dumping it all on one.\n\nMemcached client libraries, DynamoDB, Cassandra, and Riak all partition this way. Rendezvous hashing (highest random weight) solves the same problem differently, computing a weight per node per key and picking the max, a viable alternative where its O(N) lookup cost per key is acceptable.\n\nThe tradeoff against modulo hashing is small bookkeeping, maintaining the ring and tracking virtual nodes, for a large operational win. Nodes can join and leave a live cluster with proportional, not catastrophic, cache disruption.",
+    "ttft_ms": 1615,
+    "ttft_stream_ms": 1047,
+    "time_to_request_ms": 197,
+    "type": "result",
+    "duration_ms": 138292,
+    "uuid": "dd079b2f-43d9-4ab2-a9c1-e543c60affb6"
+  }
+}

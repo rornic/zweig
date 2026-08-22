@@ -1,0 +1,125 @@
+{
+  "id": "postgres-vacuum",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-refine",
+  "prompt": "Explain what Postgres's autovacuum does, why table bloat happens without it, and how to tell if a table needs a manual VACUUM.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 35972,
+    "cache_read_input_tokens": 578261,
+    "output_tokens": 16047,
+    "total_tokens": 630306
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 180560,
+    "num_turns": 20,
+    "stop_reason": "end_turn",
+    "session_id": "00f5d541-f2bc-4a3f-8a9e-5b193a1eba2a",
+    "total_cost_usd": 0.43421975,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 35972,
+      "cache_read_input_tokens": 578261,
+      "output_tokens": 16047,
+      "output_tokens_details": {
+        "thinking_tokens": 7973
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35972,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1073,
+          "cache_read_input_tokens": 55586,
+          "cache_creation_input_tokens": 2884,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2884
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1684,
+        "outputTokens": 1084,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4879,
+        "webSearchRequests": 0,
+        "costUSD": 0.01415755,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 26,
+        "outputTokens": 16047,
+        "cacheReadInputTokens": 578261,
+        "cacheCreationInputTokens": 35972,
+        "webSearchRequests": 0,
+        "costUSD": 0.42006220000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "424 words, within the 350\u2013500 range. No corrective edit needed: the fresh reader's flagged items are either already correct as written (the MVCC snapshot direction is right, not backwards) or scope beyond what the three questions asked for, not substance lost to a cut.\n\n---\n\nPostgres uses MVCC, so every UPDATE writes a new row version instead of overwriting the old one, and DELETE marks a row dead rather than removing it. Old versions stick around because some transaction might still need them under snapshot isolation. Autovacuum is the background process that reclaims dead rows. It scans tables, marks the space they occupied as free for reuse by future inserts and updates, and updates planner statistics so query plans stay accurate. It also freezes old transaction IDs to prevent transaction ID wraparound, a rarer but more dangerous failure mode than bloat.\n\nTable bloat happens when dead rows accumulate faster than autovacuum reclaims them, either because it isn't running or it's tuned too conservatively for the write rate. The table file grows even though the live row count stays flat. Postgres doesn't shrink files on disk automatically; it only marks space free for reuse. A long-running transaction makes this worse. MVCC can't remove any row version newer than the oldest snapshot still active, so an idle transaction left open for hours (a common culprit is an ORM connection pool holding a transaction, or a forgotten `BEGIN` in a psql session) blocks cleanup across every table it touches, not just the ones it queries. High-churn tables (queues, session stores, counters updated on every request) bloat fastest because they generate the highest ratio of dead-to-live tuples.\n\nBloat costs you three ways: queries do more I/O scanning dead tuples, indexes bloat alongside the table and slow down lookups, and on-disk size can balloon well past what the live data needs.\n\nTo check if a table needs a manual VACUUM, query `pg_stat_user_tables`:\n\n```sql\nSELECT relname, n_dead_tup, n_live_tup, last_autovacuum, last_vacuum\nFROM pg_stat_user_tables\nORDER BY n_dead_tup DESC;\n```\n\nA high `n_dead_tup` relative to `n_live_tup` (roughly 20% or more is worth investigating) means dead rows are outpacing cleanup. A `last_autovacuum` that's null or far in the past on a high-churn table suggests autovacuum isn't keeping up, often because the default thresholds (`autovacuum_vacuum_scale_factor` at 20% of table size) are too coarse for a large table. Check `pg_stat_activity` too, for long-running or idle-in-transaction sessions holding back the cleanup horizon.\n\nAn unchanged table size after a plain `VACUUM` doesn't mean it failed. VACUUM frees space for reuse, not disk, so the file doesn't shrink. Only `VACUUM FULL` or `pg_repack` reclaim disk space, at the cost of an exclusive lock (`VACUUM FULL`) or extra disk and CPU during a rebuild (`pg_repack`). For ongoing bloat rather than a one-off, tune autovacuum's scale factor down per table instead of relying on manual runs.",
+    "ttft_ms": 3052,
+    "ttft_stream_ms": 2193,
+    "time_to_request_ms": 134,
+    "type": "result",
+    "duration_ms": 179806,
+    "uuid": "d707f686-6329-47c8-aac8-8aef7bbdf116"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "db-index-explainer",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-refine",
+  "prompt": "Explain how B-tree database indexes work and when adding an index can make queries slower, not faster.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 38,
+    "cache_creation_input_tokens": 29576,
+    "cache_read_input_tokens": 787818,
+    "output_tokens": 11638,
+    "total_tokens": 829070
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 122462,
+    "num_turns": 20,
+    "stop_reason": "end_turn",
+    "session_id": "f7b274e3-8f55-475e-974a-89f295d0dbac",
+    "total_cost_usd": 0.40505290000000005,
+    "usage": {
+      "input_tokens": 38,
+      "cache_creation_input_tokens": 29576,
+      "cache_read_input_tokens": 787818,
+      "output_tokens": 11638,
+      "output_tokens_details": {
+        "thinking_tokens": 5289
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29576,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 783,
+          "cache_read_input_tokens": 51125,
+          "cache_creation_input_tokens": 949,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 949
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1527,
+        "outputTokens": 873,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4706,
+        "webSearchRequests": 0,
+        "costUSD": 0.0127293,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 38,
+        "outputTokens": 11638,
+        "cacheReadInputTokens": 787818,
+        "cacheCreationInputTokens": 29576,
+        "webSearchRequests": 0,
+        "costUSD": 0.39232360000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "A B-tree index stores a sorted copy of the indexed column(s) in a balanced tree, each value paired with a pointer to the row's location on disk. Internal nodes hold routing keys that narrow the search range. Leaf nodes hold the values and pointers, usually linked to their neighbors so a range scan can walk sideways without returning to the root. A lookup descends from the root, comparing the search key at each node and following the matching branch, reaching any leaf in O(log n) comparisons regardless of table size. That's why indexes speed up equality lookups, range scans, and sorted or grouped reads. The tree prunes most of the table before touching it.\n\nThe index isn't free. Every insert, update, or delete on an indexed column has to update the index too, splitting or merging nodes to keep the tree balanced. A table with five indexes pays that cost five times per write, so write-heavy tables slow down as indexes accumulate.\n\nIndexes can also make reads slower in a few distinct ways.\n\n**Low selectivity.** An index on a boolean or low-cardinality column (like `is_active`) often returns such a large fraction of the table that following pointers to scattered rows costs more I/O than a sequential scan. A good optimizer detects this and ignores the index, but a bad cardinality estimate can make it choose the index anyway, producing a plan worse than a full scan.\n\n**Random I/O from bookmark lookups.** Unless an index is covering (it contains every column the query needs), each matched row requires a separate trip to the data pages to fetch the rest of the row. On a spinning disk, or even on SSD at scale, thousands of scattered lookups after a range scan can cost more than one sequential pass over the table.\n\n**Write amplification cascading into reads.** Heavily indexed tables under high write load spend more time on index maintenance, which can starve concurrent reads of I/O bandwidth and lock resources even when each index seek is fast.\n\n**Planner misdirection.** A new index can shift the optimizer away from a previously-good plan and toward a worse one, even for queries that never reference it directly. Extra indexes just mean more candidate plans to weigh, and more chances to pick wrong, especially with stale statistics.\n\nIndex columns that are used in `WHERE`, `JOIN`, or `ORDER BY` clauses and have high selectivity, then verify with `EXPLAIN` rather than assuming more indexes help.",
+    "ttft_ms": 1611,
+    "ttft_stream_ms": 1036,
+    "time_to_request_ms": 143,
+    "type": "result",
+    "duration_ms": 122058,
+    "uuid": "9d60d5bb-da9f-4965-8f97-6b6da7dbe395"
+  }
+}

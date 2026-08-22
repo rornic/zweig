@@ -1,0 +1,122 @@
+{
+  "id": "last-library",
+  "theme": "short-stories",
+  "condition": "claude-plain",
+  "prompt": "Write a short story about the last librarian in a city after everyone else has left.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3146,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 814,
+    "total_tokens": 22401
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 15132,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "7d35b8ac-0d8a-4df2-b73c-ad46ea3379fc",
+    "total_cost_usd": 0.025418800000000002,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3146,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 814,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3146,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 814,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3146,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3146
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 938,
+        "outputTokens": 13,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001003,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 814,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3146,
+        "webSearchRequests": 0,
+        "costUSD": 0.0244158,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The Last Reader\n\nMira still stamped the due dates, even though there was no one left to return the books. It was a small ritual \u2014 the thunk of the wooden handle, the violet ink blooming on the slip \u2014 and it gave her days a shape they would otherwise have lacked.\n\nThe evacuation had finished six weeks ago. She remembered the convoy of buses idling in the square, exhaust curling up past the courthouse, someone shouting her name through a bullhorn. She had watched from the reading room window, surrounded by four hundred thousand volumes, and had simply not gone down.\n\nNow the city belonged to pigeons and to her. Grass split the sidewalks. At night she heard things moving that she chose not to name. But the library still had power for another few weeks \u2014 the solar array on the roof saw to that \u2014 and the pipes still ran, and so she kept the hours posted on the door: nine to five, closed Sundays, though Sundays had stopped meaning anything in particular.\n\nShe had appointed herself a patron as well as a librarian. Each morning she selected a book for the empty circulation desk \u2014 Marcus Aurelius on Tuesday, a battered atlas on Wednesday, poetry when the light was good \u2014 and read it through in the reading room chair, feet up on the radiator, as if someone might come ask her opinion of it. In the evenings she reshelved whatever had migrated out of order, because a library out of order was not a library, it was just a warehouse of paper, and she refused to let it become that.\n\nSometimes she wrote in the ledger, in the column meant for names. She invented patrons. Mrs. Alcott, checking out gardening manuals she'd never plant by. A boy named Tomas who only wanted books about trains. It was foolish, she knew, filling a dead register with the living, but the alternative was to let the columns stay blank, and blank columns felt like a kind of surrender.\n\nA drone passed over some mornings, low and buzzing, cataloguing the ruins for people who would decide, eventually, whether the city was worth reclaiming. She waved at it once, from the steps, holding up a copy of the book she was reading that day, as if to say: still here, still working. It did not wave back.\n\nShe did not know what she was waiting for exactly \u2014 rescue, or ruin, or simply the day the solar batteries finally gave out and the reading lamps went dark for good. Until then there were books to stamp, shelves to straighten, and a silence that, if she filled it carefully enough, did not sound so much like an ending as like a room, briefly, holding its breath.",
+    "ttft_ms": 14202,
+    "ttft_stream_ms": 1002,
+    "time_to_request_ms": 164,
+    "type": "result",
+    "duration_ms": 14224,
+    "uuid": "02b86cb1-c376-45d3-95b0-e2747e3108a5"
+  }
+}

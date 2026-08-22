@@ -1,0 +1,128 @@
+{
+  "id": "cartographer",
+  "theme": "short-stories",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a short story about a cartographer assigned to map a town whose streets keep changing overnight.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 918,
+    "cache_read_input_tokens": 48145,
+    "output_tokens": 1645,
+    "total_tokens": 50710
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 117953,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "eee8f7a9-9e01-4c83-a51c-1a72eddacbcd",
+    "total_cost_usd": 0.31648029999999994,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 918,
+      "cache_read_input_tokens": 48145,
+      "output_tokens": 1645,
+      "output_tokens_details": {
+        "thinking_tokens": 797
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 918,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1645,
+          "cache_read_input_tokens": 48145,
+          "cache_creation_input_tokens": 918,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 918
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1556,
+        "outputTokens": 704,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 13386,
+        "webSearchRequests": 0,
+        "costUSD": 0.0218085,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 10047,
+        "cacheReadInputTokens": 439489,
+        "cacheCreationInputTokens": 26565,
+        "webSearchRequests": 0,
+        "costUSD": 0.29467179999999993,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "origin": {
+      "kind": "task-notification"
+    },
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 1
+      },
+      "started_in_background": 1,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Mira Fenwick arrived in Thessaly Junction with a plane table, a theodolite older than her father, and a letter from the county surveyor's office that called the assignment \"routine remapping.\" She learned the truth on her second morning, when Cooper Street failed to reach the courthouse.\n\nShe had walked it the night before, chained every corner, marked the intersection with Fifth in her notebook. At dawn the intersection was gone. Cooper Street now ended in a hedge that residents swore had stood there thirty years.\n\nNobody in town found this remarkable. The postmaster redrew his route each morning over coffee, checking which way the streets ran before loading his bag. Children walked to school along paths their parents had never used, and arrived on time. When Mira asked the diner's owner how she managed deliveries, the woman shrugged and said she followed the smell of her own bread, since that never moved even when the street did.\n\nMira tried surveying at night, hoping to catch the town mid-change. She staked Elm Street at eleven, set a lantern at its corner, and sat on the courthouse steps to watch. Nothing moved that she could see. But at three in the morning she woke, slumped against a pillar, to find the lantern forty yards west, still burning, still marking a corner. The street had gone around her.\n\nShe began to suspect the town wasn't moving so much as declining to be fixed. Every map she drew described a Thessaly Junction that had already stopped existing. She tried mapping relationships instead of positions, courthouse to diner to church, distances and turns but no coordinates, and for one afternoon it held. Then a wedding party took her measured route to the church and ended up at the reservoir, and she tore the page out.\n\nThe county surveyor wrote asking for progress. Mira wrote back that the town was accurate, only never the same twice, and that her instruments recorded a single instant she couldn't hand to anyone as a permanent truth. She thought this would end her contract. Instead the surveyor, a man she'd never met, replied that this was the fourth such letter his office had received from four different towns that year, and that maybe the job from now on was not to fix a place down but to catch it well.\n\nShe stayed the rest of the season and stopped chaining corners, dating her maps instead, one for each morning, filed by weather and by which way the smoke leaned from the diner's chimney. The postmaster began keeping her sketches instead of his own memory. Nobody could tell her whether the maps were right. But when she left in October, the town gave her the hedge that had eaten Cooper Street, transplanted whole into a barrel, because it was the only thing anyone could remember staying put.",
+    "ttft_ms": 11274,
+    "ttft_stream_ms": 1316,
+    "time_to_request_ms": 6,
+    "type": "result",
+    "duration_ms": 19147,
+    "uuid": "4122eb6f-142d-4725-90a5-c0e7ee59fc2a"
+  }
+}

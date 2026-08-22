@@ -1,0 +1,122 @@
+{
+  "id": "locksmith",
+  "theme": "short-stories",
+  "condition": "claude-plain",
+  "prompt": "Write a short story about a locksmith who can open any lock except the one on his own front door, and why.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3153,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 776,
+    "total_tokens": 22370
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14471,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "a7a3a671-8553-43d9-a2d0-0d90fc46b4f1",
+    "total_cost_usd": 0.0250938,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3153,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 776,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3153,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 776,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3153,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3153
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 945,
+        "outputTokens": 17,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.00103,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 776,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3153,
+        "webSearchRequests": 0,
+        "costUSD": 0.0240638,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The Locksmith's Door\n\nMarek had opened forty thousand locks in thirty years. Wafer locks, pin tumblers, warded antiques that clients inherited from grandmothers who trusted nobody. He could read a lock's resistance through a tension wrench like a doctor reads a pulse, feel the shear line before it existed. People called him at 3 a.m. when they'd locked themselves out, and he never once failed them.\n\nExcept at his own door.\n\nThe lock there was nothing special \u2014 a Yale deadbolt, mid-grade, the kind he'd cleared in nine seconds a thousand times. But he had never picked it. Not once in eleven years. He always used the key, and if he ever misplaced the key, he simply waited on the step until his daughter came home from work and let him in.\n\nHis apprentice, a sharp kid named Ilya, noticed this the week he started. \"You could open that in your sleep,\" he said, watching Marek fumble through his coat pockets one cold evening.\n\n\"I could,\" Marek agreed, and said nothing else.\n\nThe truth was this: eleven years ago, his wife Dana had been on the other side of that door, and he had been standing exactly where Ilya stood now, key lost somewhere in a bar three streets over, pick set in his bag like always. He could have had the door open in less time than it took to knock. Instead he knocked. He wanted, for once in his life, to be let in rather than to let himself in. Dana opened the door laughing at him, called him a locksmith who couldn't find his own keys, and he'd laughed too and kissed her on the doorstep in the cold.\n\nSix months later she was gone \u2014 quickly, quietly, the way some illnesses are \u2014 and the door became the last place that had held that particular laugh. He could not bring himself to defeat it with a tool. Picking it would have meant treating it like every other lock in the city: a problem to be solved, a barrier with no memory in it. So he kept the key on a ring by itself, and when he lost it, he waited on the step, the way he'd waited that night, letting the cold do what cold does, letting someone else be the one to open the door for him.\n\nIlya didn't ask again. But the following week he noticed Marek had a spare key cut for him too \u2014 \"in case,\" Marek said, \"you're ever the one who has to let me in.\"\n\nSome doors aren't locked to keep people out. They're locked so that opening them stays somebody's choice, and not merely a skill.",
+    "ttft_ms": 13744,
+    "ttft_stream_ms": 1222,
+    "time_to_request_ms": 172,
+    "type": "result",
+    "duration_ms": 13765,
+    "uuid": "b914bf64-3313-4deb-b01a-fc644863218f"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "last-library",
+  "theme": "short-stories",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a short story about the last librarian in a city after everyone else has left.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 29026,
+    "cache_read_input_tokens": 441822,
+    "output_tokens": 12639,
+    "total_tokens": 483509
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 139702,
+    "num_turns": 16,
+    "stop_reason": "end_turn",
+    "session_id": "8c8fc903-d9b3-44b3-85d1-e7d489467296",
+    "total_cost_usd": 0.3444407,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 29026,
+      "cache_read_input_tokens": 441822,
+      "output_tokens": 12639,
+      "output_tokens_details": {
+        "thinking_tokens": 7132
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29026,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1365,
+          "cache_read_input_tokens": 49828,
+          "cache_creation_input_tokens": 1696,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1696
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1566,
+        "outputTokens": 1008,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4782,
+        "webSearchRequests": 0,
+        "costUSD": 0.0135383,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 12639,
+        "cacheReadInputTokens": 441822,
+        "cacheCreationInputTokens": 29026,
+        "webSearchRequests": 0,
+        "costUSD": 0.3309024,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The keys still worked. That was the first thing Mira noticed, three years after the last bus left the square. The reading room lock still turned. The lights still came up bank by bank when she walked the aisles.\n\nShe kept the hours anyway. Nine to five, six days a week, the seventh for repairs. Nobody had told her to. Nobody was left to tell her anything, unless you counted the radio, and the radio had stopped counting anything but static since spring.\n\nMornings she did rounds. Water damage on the third floor, from a roof seam that widened every winter, patched with tar she mixed by a recipe from a manual in the 690s. Mould in periodicals, which she'd given up on and sealed behind plastic sheeting, a small grief she visited weekly like a grave. Rot in the returns bin, always, because someone had died holding four books and she hadn't had the heart to open the bag to see whose hands had touched them last.\n\nAfternoons were for the catalogue. She was recopying it by hand onto paper stock salvaged from the print shop across the square, because the terminals had gone dark with the grid two winters back and she did not trust her own memory to outlast her. A librarian who forgets where a book lives has stopped being a librarian. She had watched that happen to old Prosek, in the last months before he walked north with the others, and she would not let it happen to herself.\n\nShe did not think of it as loneliness. She thought of it as custody. The building held four hundred thousand volumes and she was the only keeper of what each one meant, which shelf, which century, which reader had dog-eared which page, in a language nobody in this city spoke anymore. If she left, the meaning left with her. The books would still be paper and glue. But paper and glue is not a library. A library is the person who can find the thing you didn't know you needed.\n\nIn the evenings, before the light went, she read to the empty rows. Not for herself, she told herself, though there was no one to check the claim. She had started with children's books, out of instinct for hope, then moved to poetry, then, longest of all, to the letters people had left folded into returns over decades, notes never meant for her, meant for whoever came next.\n\nShe was the one who came next. She read them anyway, aloud, so the room would not forget the sound of a voice being kind to it.\n\nThen she closed up, checked the locks that no one would test, and went home past a hundred dark windows to a city that had become, in her keeping, the single largest room in the world still waiting for somebody to walk in.",
+    "ttft_ms": 1459,
+    "ttft_stream_ms": 913,
+    "time_to_request_ms": 114,
+    "type": "result",
+    "duration_ms": 138864,
+    "uuid": "8e892735-cd60-4743-92bb-32f104fd3fa3"
+  }
+}

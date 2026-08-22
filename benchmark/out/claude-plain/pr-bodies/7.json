@@ -1,0 +1,122 @@
+{
+  "id": "n-plus-one-fix",
+  "theme": "pr-bodies",
+  "condition": "claude-plain",
+  "prompt": "Write a PR description for fixing an N+1 query in an API endpoint that only showed up under production load.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3156,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 825,
+    "total_tokens": 22422
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 11313,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "750a21ab-08c7-4e47-8bb1-f1dbe45bf0ce",
+    "total_cost_usd": 0.025594799999999997,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3156,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 825,
+      "output_tokens_details": {
+        "thinking_tokens": 212
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3156,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 825,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3156,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3156
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 944,
+        "outputTokens": 17,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001029,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 825,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3156,
+        "webSearchRequests": 0,
+        "costUSD": 0.0245658,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Fix N+1 query in `GET /api/orders` endpoint\n\n### Problem\n\nThe orders list endpoint was issuing one query per order to fetch each order's associated `customer` and `line_items`, in addition to the initial query for the order list itself. Locally and in staging this was invisible \u2014 small dataset, low latency \u2014 but in production, where accounts routinely have hundreds of orders per page, the endpoint was issuing 200+ queries per request. Under concurrent load this saturated the DB connection pool and caused p99 latency on this endpoint to spike to 4-6s, occasionally exhausting the pool and causing timeouts on unrelated endpoints sharing the same pool.\n\nThis was found via slow query logs / APM traces in production (not caught by tests or local profiling, since the query count scales with row count and dev fixtures are small).\n\n### Root cause\n\n`OrderSerializer` accessed `order.customer` and `order.line_items` per-instance, and the view's queryset didn't eager-load those relations, so each access triggered a separate lazy-loaded query.\n\n### Fix\n\n- Added `.select_related(\"customer\")` and `.prefetch_related(\"line_items\")` to the queryset in `OrderListView`.\n- Reduces the endpoint from `2N + 1` queries to a constant `3` queries regardless of page size.\n\n### Testing\n\n- Added a test asserting query count stays constant as the number of returned orders increases (`assertNumQueries`).\n- Verified against a production-sized dataset snapshot (10k orders) locally: response time dropped from ~3.8s to ~180ms for a 200-item page.\n- Confirmed no change in response payload/shape.\n\n### Notes\n\nWorth auditing sibling endpoints (`/api/invoices`, `/api/shipments`) for the same pattern \u2014 flagged as a follow-up rather than bundling here to keep this fix reviewable.",
+    "ttft_ms": 3728,
+    "ttft_stream_ms": 980,
+    "time_to_request_ms": 138,
+    "type": "result",
+    "duration_ms": 10431,
+    "uuid": "8e108693-cbad-4ca4-8466-dd5456086515"
+  }
+}

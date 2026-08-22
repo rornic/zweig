@@ -1,0 +1,125 @@
+{
+  "id": "dependency-bump",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a PR description for bumping a major version of a logging library, including one breaking config change that had to be migrated.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 23095,
+    "cache_read_input_tokens": 494083,
+    "output_tokens": 7499,
+    "total_tokens": 524703
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 87950,
+    "num_turns": 14,
+    "stop_reason": "end_turn",
+    "session_id": "103a58d7-f34e-44ed-aa72-2ee3a91817e6",
+    "total_cost_usd": 0.27808040000000006,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 23095,
+      "cache_read_input_tokens": 494083,
+      "output_tokens": 7499,
+      "output_tokens_details": {
+        "thinking_tokens": 3888
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23095,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 823,
+          "cache_read_input_tokens": 43505,
+          "cache_creation_input_tokens": 2088,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2088
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1292,
+        "outputTokens": 799,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4480,
+        "webSearchRequests": 0,
+        "costUSD": 0.011841799999999998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 26,
+        "outputTokens": 7499,
+        "cacheReadInputTokens": 494083,
+        "cacheCreationInputTokens": 23095,
+        "webSearchRequests": 0,
+        "costUSD": 0.26623860000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Summary\n\n- Bump `winston` from `3.x` to `4.0.0`\n- Migrate `format.simple()` config to the new `format.combine()` pipeline required by v4\n- Update the two custom transports (`SlackTransport`, `AuditTransport`) to the v4 transport interface\n\nWinston 4 drops the implicit default formatter, so a logger created without an explicit `format` now throws at construction instead of silently falling back to `simple()`. All our loggers relied on that fallback, so every call site needed an explicit `format.combine(format.timestamp(), format.json())` or equivalent.\n\nTransport constructors also changed. `log(info, callback)` is now `log(info)`, returning a `Promise`. Callback-based error handling is gone in favor of transport-level `error` events. Both custom transports now match this interface. Callers of `logger.add()` are unaffected.\n\nNo other breaking changes in v4 apply to our usage (`v3` deprecations around `.cli()` and `.padLevels` were already unused here).\n\n## Test plan\n\n- [ ] `npm test` passes with no format-related throws on startup\n- [ ] Confirm Slack alert transport still fires on `error`-level logs in staging\n- [ ] Confirm audit log output still lands in the expected JSON shape (downstream parser is strict on `timestamp` field format)",
+    "ttft_ms": 2849,
+    "ttft_stream_ms": 2162,
+    "time_to_request_ms": 298,
+    "type": "result",
+    "duration_ms": 87410,
+    "uuid": "443ab9dc-5a92-4d54-90ae-5145ea476004"
+  }
+}

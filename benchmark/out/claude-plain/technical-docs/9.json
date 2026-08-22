@@ -1,0 +1,122 @@
+{
+  "id": "load-balancer-algorithms",
+  "theme": "technical-docs",
+  "condition": "claude-plain",
+  "prompt": "Explain the difference between round-robin, least-connections, and consistent-hashing load balancing, and when each one is the wrong choice.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3166,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 935,
+    "total_tokens": 22542
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14488,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "3da4bfb3-1566-4512-8b6e-32e970a402e6",
+    "total_cost_usd": 0.0267218,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3166,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 935,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3166,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 935,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3166,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3166
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 951,
+        "outputTokens": 13,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001016,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 935,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3166,
+        "webSearchRequests": 0,
+        "costUSD": 0.0257058,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Round-robin, least-connections, and consistent hashing solve different problems, so \"wrong choice\" usually means the choice ignores state, cost, or affinity requirements.\n\n**Round-robin** cycles through backends in fixed order (optionally weighted). It's simple and requires no shared state, which makes it cheap and fast. It assumes all requests cost roughly the same and all backends have equal capacity. It's the wrong choice when request costs vary widely (some requests are 10ms, others are 10s) \u2014 a backend can get unlucky and pile up slow requests while others sit idle, since round-robin doesn't look at actual load. It's also wrong when backends have heterogeneous capacity (mismatched sizes) unless you weight it, and wrong when clients need session affinity \u2014 round-robin sends each request wherever it's next in line, not to the server holding a client's session state.\n\n**Least-connections** routes each request to the backend with the fewest active connections, which adapts to real-time load and handles uneven request costs far better than round-robin. It's the wrong choice when connection count doesn't correlate with actual load \u2014 e.g., long-lived idle connections (WebSockets, keep-alive) can make a backend look \"busy\" when it's actually free, causing the balancer to avoid it unnecessarily. It also requires the load balancer to track connection state per backend, adding coordination overhead, and in a fleet of balancers (not just one), each with a partial view, the signal can be stale or inconsistent. Like round-robin, it has no built-in affinity, so it's wrong for use cases needing sticky sessions or cache locality.\n\n**Consistent hashing** maps requests to backends based on a hash of some key (user ID, cache key, session ID), so the same key routes to the same backend, and adding/removing a node only remaps a small fraction of keys. This is essential for caching layers, sharded stateful services, or sticky sessions, where locality matters more than perfectly even load. It's the wrong choice when you actually want even load distribution and don't need affinity \u2014 hashing can produce hotspots if key popularity is skewed (a viral user ID or cache key overwhelms one node) since it doesn't rebalance based on real load, only based on the key space. It's also a poor fit when backend capacity is uneven or highly dynamic (frequent scale up/down), because although rebalancing is minimized, it's not zero, and virtual-node tuning adds operational complexity for marginal gain if you didn't need affinity in the first place. Finally, it's overkill for stateless services with uniform request cost \u2014 you're paying hashing/ring-maintenance complexity for a benefit (affinity) you don't need.\n\nIn short: round-robin for uniform, stateless, cheap requests; least-connections for variable-cost stateless requests; consistent hashing for anything requiring affinity or cache locality, accepting some load skew as the tradeoff.",
+    "ttft_ms": 13337,
+    "ttft_stream_ms": 1105,
+    "time_to_request_ms": 260,
+    "type": "result",
+    "duration_ms": 13504,
+    "uuid": "57016ea5-c7d0-42b3-b5eb-1f03c13cb3e2"
+  }
+}

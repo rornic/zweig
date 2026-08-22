@@ -1,0 +1,122 @@
+{
+  "id": "db-index-explainer",
+  "theme": "technical-docs",
+  "condition": "claude-plain",
+  "prompt": "Explain how B-tree database indexes work and when adding an index can make queries slower, not faster.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3154,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 1047,
+    "total_tokens": 22642
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14874,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "2cce93b9-1a99-48e9-86e7-5bf594ee6804",
+    "total_cost_usd": 0.0277948,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3154,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 1047,
+      "output_tokens_details": {
+        "thinking_tokens": 19
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3154,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1047,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3154,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3154
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 942,
+        "outputTokens": 15,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.0010170000000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 1047,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3154,
+        "webSearchRequests": 0,
+        "costUSD": 0.0267778,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## How B-tree indexes work\n\nA B-tree (technically B+tree in most databases) is a balanced, sorted tree structure. Each node holds multiple sorted key values with pointers to child nodes; leaf nodes hold the indexed values plus a pointer (or row ID) to the actual table row, and leaves are linked together for fast range scans.\n\nBecause the tree is balanced and each node holds many keys (a high \"fan-out\"), the depth stays small even for huge tables \u2014 typically 3-4 levels for millions of rows. Looking up a value means walking from the root down to a leaf, comparing keys at each level, which costs O(log n) disk/page reads instead of scanning every row.\n\nThis makes B-trees excellent for:\n- **Equality lookups** (`WHERE id = 5`)\n- **Range queries** (`WHERE age BETWEEN 20 AND 30`, `ORDER BY created_at`), thanks to the linked leaf nodes\n- **Prefix matching** on composite indexes (`WHERE last_name = 'Smith' AND first_name = 'Jane'` if indexed in that order)\n\n## When an index makes queries slower\n\n1. **Low selectivity / low cardinality columns.** An index on a boolean or a column with only a few distinct values (e.g., `status` with 3 possible values) often doesn't narrow the result set enough. The planner may still choose a full table scan \u2014 but if it *does* use the index, jumping between the index and the table (random I/O) can be slower than sequentially scanning the whole table.\n\n2. **Queries that return a large fraction of the table.** If a query matches, say, 40% of rows, using an index means many random-access lookups back to the table (unless it's a covering index), which is often costlier than one sequential scan.\n\n3. **Small tables.** If the whole table fits in a few pages, a full scan is already fast; the index adds overhead without benefit.\n\n4. **Write-heavy workloads.** Every `INSERT`/`UPDATE`/`DELETE` must also update every index on the table \u2014 rebalancing nodes, splitting pages, etc. Extra indexes slow down writes and increase lock contention, even if they never help a read.\n\n5. **Wrong leading column in a composite index / mismatched sort order.** An index on `(a, b)` doesn't help a query filtering only on `b`. Using it anyway (or the optimizer trying to) wastes effort compared to just scanning.\n\n6. **Non-covering indexes causing \"bookmark lookups.\"** If a query needs columns not in the index, the engine must fetch each matching row from the base table individually, which for many matches is slower than scanning the table once.\n\n7. **Stale statistics.** The query planner picks a scan vs. index-seek based on estimated selectivity. If statistics are outdated, it may choose an index seek for a query that actually matches most of the table, causing far more I/O than a sequential scan would.\n\n**Rule of thumb:** indexes trade write cost and storage for faster *selective* reads. They help when a query narrows to a small percentage of rows; they can hurt when queries are unselective, tables are small, or write throughput matters more than occasional reads.",
+    "ttft_ms": 2080,
+    "ttft_stream_ms": 1463,
+    "time_to_request_ms": 265,
+    "type": "result",
+    "duration_ms": 14079,
+    "uuid": "378b411f-d90b-4bfa-8244-68796987bf81"
+  }
+}

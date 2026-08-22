@@ -1,0 +1,122 @@
+{
+  "id": "locksmith",
+  "theme": "short-stories",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a short story about a locksmith who can open any lock except the one on his own front door, and why.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10597,
+    "cache_read_input_tokens": 53657,
+    "output_tokens": 829,
+    "total_tokens": 65087
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 16344,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "46cb63a1-c746-4e06-b8ed-4f58061d0f71",
+    "total_cost_usd": 0.0624474,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10597,
+      "cache_read_input_tokens": 53657,
+      "output_tokens": 829,
+      "output_tokens_details": {
+        "thinking_tokens": 69
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10597,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 702,
+          "cache_read_input_tokens": 31179,
+          "cache_creation_input_tokens": 1896,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1896
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 945,
+        "outputTokens": 17,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.00103,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 829,
+        "cacheReadInputTokens": 53657,
+        "cacheCreationInputTokens": 10597,
+        "webSearchRequests": 0,
+        "costUSD": 0.0614174,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Marek Sova could open anything. Deadbolts, warded church locks, safes with dials worn smooth by a hundred anxious hands. He kept a hairpin from a Habsburg-era jewelry box on his key ring, not because he needed it, but because a client once asked to see him do it, and he liked the way her face changed.\n\nHis own front door had a Yale five-lever, the kind he could strip in under a minute for a stranger. He had owned it fourteen years. He had never picked it.\n\nThe lock had come with the house, the house with his marriage, and the marriage had ended nine years ago in the particular way marriages end when one person keeps a workshop full of tools that open things and the other person feels, increasingly, unopened. Elena took the car and left the key. Marek changed nothing. He told himself it was inertia, then habit, then eventually stopped telling himself anything, because the truth sat closer to the surface than he wanted: if he could open this door as easily as he opened every other door in the city, he would have no reason left to knock.\n\nSo he knocked. Every evening, on his own door, three times, waited, then used the key like anyone else. His neighbor Bartos found this endearing for the first few years and then stopped mentioning it, the way people stop mentioning a limp.\n\nThe clients who followed him home from job to job, the ones who wanted the story more than the service, always asked the same question eventually. Why not just fix it? He had a stock answer: sentimental attachment, an old mechanism, no time. It usually ended the conversation.\n\nThe real answer took longer, and he only gave it once, to a locksmith's apprentice named Dita who caught him at it, at the knocking, and didn't laugh.\n\nEvery lock he opened for a stranger was a small, contained rescue. In and out, gone by morning, no residue. This lock was different. If he ever let himself pick it, really pick it, the way his hands knew how, he was afraid of what he'd find on the other side. Not Elena. Not even the marriage. Just the version of himself who could get into anything and had built a life where nothing needed him to.\n\nDita asked if he was going to fix the lock eventually.\n\nMarek said he already had, the day he stopped trying to.",
+    "ttft_ms": 2947,
+    "ttft_stream_ms": 1168,
+    "time_to_request_ms": 332,
+    "type": "result",
+    "duration_ms": 15820,
+    "uuid": "20715b83-b494-4ff9-8067-50189efd454e"
+  }
+}

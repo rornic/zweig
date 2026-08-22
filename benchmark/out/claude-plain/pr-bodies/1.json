@@ -1,0 +1,122 @@
+{
+  "id": "flaky-test-fix",
+  "theme": "pr-bodies",
+  "condition": "claude-plain",
+  "prompt": "Write a PR description for a fix to a flaky integration test that was failing due to a race condition between two async setup calls.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 3772,
+    "cache_read_input_tokens": 40038,
+    "output_tokens": 1084,
+    "total_tokens": 44898
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 15190,
+    "num_turns": 2,
+    "stop_reason": "end_turn",
+    "session_id": "cfd9cc6d-f768-4e26-a370-23fa51d1e869",
+    "total_cost_usd": 0.0349656,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 3772,
+      "cache_read_input_tokens": 40038,
+      "output_tokens": 1084,
+      "output_tokens_details": {
+        "thinking_tokens": 347
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3772,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 726,
+          "cache_read_input_tokens": 21599,
+          "cache_creation_input_tokens": 612,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 612
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 947,
+        "outputTokens": 15,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.0010220000000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 1084,
+        "cacheReadInputTokens": 40038,
+        "cacheCreationInputTokens": 3772,
+        "webSearchRequests": 0,
+        "costUSD": 0.033943600000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Fix flaky integration test caused by async setup race condition\n\n### Problem\n\nThe `UserSession` integration suite has been intermittently failing in CI (roughly 1 in 15\u201320 runs), typically with assertion errors claiming session data was missing or stale. The failures were not reproducible locally on demand, which pointed to a timing-dependent bug rather than a logic error.\n\n### Root cause\n\nThe test's `beforeEach` hook kicked off two independent async setup calls without establishing an ordering dependency between them:\n\n1. `initializeAuthContext()` \u2014 seeds the auth token and user claims\n2. `provisionTestWorkspace()` \u2014 creates a workspace record and links it to the current user\n\nBoth were fired via `Promise.all`, but `provisionTestWorkspace()` internally reads the auth token from a shared context object that `initializeAuthContext()` populates as a side effect partway through its execution, rather than as part of its resolved value. When `provisionTestWorkspace()` happened to reach that read before `initializeAuthContext()` finished writing it, the workspace was created with a null/stale token, and downstream assertions failed non-deterministically depending on scheduler timing.\n\n### Fix\n\n- Made `initializeAuthContext()` return the auth token explicitly instead of relying on a shared mutable context.\n- Changed setup to run sequentially: `provisionTestWorkspace()` now takes the token as an explicit parameter and only starts after `initializeAuthContext()` resolves, removing the implicit ordering dependency.\n- Removed the now-unused shared context object to prevent the same hazard from recurring elsewhere.\n\n### Testing\n\n- Ran the previously flaky suite 200x locally in a loop with no failures (was failing ~1/15 before the fix).\n- Full integration suite passes.\n- No changes to production code \u2014 this is test-only.",
+    "ttft_ms": 3686,
+    "ttft_stream_ms": 937,
+    "time_to_request_ms": 164,
+    "type": "result",
+    "duration_ms": 13889,
+    "uuid": "deabec0f-b50c-4e7a-9908-a0f7088cc319"
+  }
+}

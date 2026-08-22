@@ -1,0 +1,122 @@
+{
+  "id": "queue-based-jobs",
+  "theme": "pr-bodies",
+  "condition": "claude-plain",
+  "prompt": "Write a PR description for migrating a monolith's background jobs from an in-process scheduler to a queue-based worker.\n\nAim for 250\u2013400 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    250,
+    400
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3161,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 882,
+    "total_tokens": 22484
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 12187,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "daf6d30e-893d-43b9-be65-556e89a61e2c",
+    "total_cost_usd": 0.0261628,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3161,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 882,
+      "output_tokens_details": {
+        "thinking_tokens": 54
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3161,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 882,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3161,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3161
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 947,
+        "outputTokens": 12,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001007,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 882,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3161,
+        "webSearchRequests": 0,
+        "costUSD": 0.0251558,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Migrate background jobs from in-process scheduler to queue-based worker\n\n### Summary\n\nOur background jobs currently run in-process inside the monolith via a cron-style scheduler. This couples job execution to web request capacity, causes noisy-neighbor issues (a slow job can starve request handling), and gives us no retry, backoff, or visibility into failures beyond application logs. This PR migrates job execution to a dedicated queue-backed worker.\n\n### Changes\n\n- Introduced a message queue (`<queue tech, e.g. Redis/SQS>`) as the job broker, decoupled from the request/response path.\n- Added a standalone worker process/service that pulls jobs off the queue and executes them, deployed and scaled independently from the web tier.\n- Replaced direct scheduler invocations (`scheduler.register(...)`) with job enqueue calls (`queue.enqueue(JobClass, args)`); job classes retain their existing business logic, only the trigger mechanism changed.\n- Added per-job retry policy with exponential backoff and a dead-letter queue for jobs that exhaust retries.\n- Added structured logging/metrics per job execution (duration, success/failure, retry count) for observability.\n- Recurring/cron-style jobs are now scheduled via a lightweight enqueuer (still in-process) that just pushes onto the queue on a schedule, rather than executing the job body itself.\n\n### Why\n\n- **Isolation**: worker crashes or resource spikes no longer affect web request latency.\n- **Scalability**: worker count can scale independently based on queue depth.\n- **Reliability**: built-in retries and DLQ replace ad-hoc try/catch handling previously scattered across jobs.\n- **Visibility**: queue depth and per-job metrics give us actionable alerting that we didn't have before.\n\n### Rollout plan\n\n- Deployed behind a feature flag per job type, allowing incremental cutover rather than a big-bang switch.\n- Old in-process scheduler remains as fallback until all job types are verified on the new path, then will be removed in a follow-up PR.\n\n### Testing\n\n- Unit tests for enqueue/dequeue and retry/backoff logic.\n- Staging soak test running full job suite through the worker for 48h, comparing output/side effects against the old scheduler.\n- Verified DLQ and alerting fire correctly on a forced failure.\n\n### Follow-ups\n\n- Remove legacy in-process scheduler once all jobs are cut over.\n- Add per-job concurrency limits.",
+    "ttft_ms": 1671,
+    "ttft_stream_ms": 1102,
+    "time_to_request_ms": 212,
+    "type": "result",
+    "duration_ms": 11051,
+    "uuid": "d9dee194-0425-4207-8773-301593ea6940"
+  }
+}

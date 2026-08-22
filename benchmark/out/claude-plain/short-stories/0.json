@@ -1,0 +1,122 @@
+{
+  "id": "lighthouse-keeper",
+  "theme": "short-stories",
+  "condition": "claude-plain",
+  "prompt": "Write a short story about a lighthouse keeper who receives a radio message from a ship that sank decades ago.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3158,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 833,
+    "total_tokens": 22432
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14918,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "97c45f8d-d05f-4f1f-9d0b-9200254a2c00",
+    "total_cost_usd": 0.025675800000000002,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3158,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 833,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3158,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 833,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3158,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3158
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 942,
+        "outputTokens": 16,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001022,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 833,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3158,
+        "webSearchRequests": 0,
+        "costUSD": 0.024653800000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The static crackled at 2:14 a.m., the way it always did before the automated weather relay checked in. Halvard Voss didn't look up from his tea until the voice came through \u2014 not the clipped robotic recitation of pressure and wind speed, but a man's voice, young, frightened, threaded with distance.\n\n\"\u2014taking on water, request bearing, this is the *Solveig*, does anyone copy\u2014\"\n\nHalvard's cup stopped halfway to his mouth. He knew that name. Everyone on this stretch of coast knew that name. The *Solveig* had gone down in a November gale in 1987, thirty-nine years ago, three miles off the point, with all eleven hands lost. He'd been a boy then, watching from this same tower as his father worked the old beam, useless against the fog that had swallowed the ship whole.\n\nHe grabbed the handset. \"*Solveig*, this is Skj\u00e6rholm Light, I copy, state your position.\"\n\nNothing but the hiss of empty air, and then, faint: \"\u2014can't see the light, we can't see\u2014 someone tell Anna I\u2014\"\n\nThe transmission dissolved into static and didn't return.\n\nHalvard sat with the handset in his lap for a long time. He was seventy-one years old and had kept this light for forty-three of those years, and he had never once believed in ghosts, not in any way that mattered to the work. A lighthouse keeper dealt in facts: the rotation of the lamp, the reach of the beam, the tonnage of fog that could swallow both. But he had also spent four decades logging every strange signal that came through that radio, because the sea did not care what a man believed.\n\nHe paged back through the log book, back through years of his own handwriting, until he found the entry for a technician's visit in 2003, the one who'd replaced the old relay and mentioned, almost as an aside, that these coastal stations sometimes picked up decayed recordings \u2014 old distress calls trapped in ionospheric ducting, bounced and rebroadcast decades after the fact, arriving like light from a dead star.\n\nIt was a reasonable explanation. It was probably the correct one.\n\nStill, Halvard pulled his coat on and climbed the spiral stairs to the lamp room, where the great lens turned its patient beam out over the black water, searching the place where the *Solveig* had gone down. He stood there until dawn, not because he expected anyone to see it after thirty-nine years, but because somewhere in that log book was a name \u2014 Anna Voss, his mother, who had waited at the end of this same point for a ship that never came home \u2014 and some debts a man pays anyway, whether or not the sea is listening.",
+    "ttft_ms": 14177,
+    "ttft_stream_ms": 995,
+    "time_to_request_ms": 196,
+    "type": "result",
+    "duration_ms": 14190,
+    "uuid": "e08163d8-3d3b-4694-bd3d-4bf18b3dc9a5"
+  }
+}

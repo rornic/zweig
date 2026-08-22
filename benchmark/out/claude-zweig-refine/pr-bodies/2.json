@@ -1,0 +1,125 @@
+{
+  "id": "db-migration-pr",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a PR description for a database migration that adds a NOT NULL column with a backfill to a 50-million-row table.\n\nAim for 250\u2013400 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    250,
+    400
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 23192,
+    "cache_read_input_tokens": 380474,
+    "output_tokens": 7484,
+    "total_tokens": 411170
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 84118,
+    "num_turns": 12,
+    "stop_reason": "end_turn",
+    "session_id": "288a7ed1-a9b2-4522-9be5-9c251718dbce",
+    "total_cost_usd": 0.25673334999999997,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 23192,
+      "cache_read_input_tokens": 380474,
+      "output_tokens": 7484,
+      "output_tokens_details": {
+        "thinking_tokens": 3538
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23192,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 559,
+          "cache_read_input_tokens": 45509,
+          "cache_creation_input_tokens": 181,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 181
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1332,
+        "outputTokens": 1008,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4531,
+        "webSearchRequests": 0,
+        "costUSD": 0.01299055,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 7484,
+        "cacheReadInputTokens": 380474,
+        "cacheCreationInputTokens": 23192,
+        "webSearchRequests": 0,
+        "costUSD": 0.2437428,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Summary\n\nAdds a `NOT NULL` column to the `orders` table (50M rows) with a backfill, split into three deploy-safe steps instead of one blocking migration.\n\n1. Add the column as nullable with a default value.\n2. Backfill rows where the column is still `NULL`, in batches (10k rows per transaction), to avoid long locks and replication lag. Scoping to `NULL` rows means the backfill can't overwrite values the app has already written.\n3. Add the `NOT NULL` constraint once the backfill confirms zero remaining nulls.\n\n## Why split it\n\nA single `ALTER TABLE ... ADD COLUMN ... NOT NULL DEFAULT ...` on a 50M-row table requires a full table rewrite, holding a lock long enough to cause timeouts on this table's write-heavy path. Splitting into add-nullable, backfill, then constrain keeps each step fast and non-blocking.\n\n## Rollout\n\n- Migration runs during off-peak hours. Batched backfill is throttled to keep replication lag under 5s.\n- Application code deploys after the column exists but before the `NOT NULL` constraint lands, so it can write the new field without waiting on the backfill.\n- The constraint migration runs only after a verification query confirms no nulls remain.\n\n## Test plan\n\n- [ ] Verified batch backfill on staging clone of production-sized table, checked replication lag stayed under threshold\n- [ ] Confirmed rollback path (drop constraint, drop column) for each of the three steps\n- [ ] Verified app writes populate the new column correctly before backfill completes\n- [ ] Ran final null-check query before applying the `NOT NULL` constraint in production",
+    "ttft_ms": 1850,
+    "ttft_stream_ms": 1206,
+    "time_to_request_ms": 143,
+    "type": "result",
+    "duration_ms": 83189,
+    "uuid": "fae7b4bb-3545-48d0-9a08-5db5f4180fbe"
+  }
+}

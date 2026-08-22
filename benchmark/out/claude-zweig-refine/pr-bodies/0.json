@@ -1,0 +1,125 @@
+{
+  "id": "rate-limiter",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a PR description for a change that adds a token-bucket rate limiter to an internal API gateway, replacing a fixed-window limiter that was causing bursty 429s.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 19214,
+    "cache_read_input_tokens": 359317,
+    "output_tokens": 5032,
+    "total_tokens": 383583
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 61977,
+    "num_turns": 11,
+    "stop_reason": "end_turn",
+    "session_id": "e713d265-494a-4a06-b399-477fc688e141",
+    "total_cost_usd": 0.21081619999999995,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 19214,
+      "cache_read_input_tokens": 359317,
+      "output_tokens": 5032,
+      "output_tokens_details": {
+        "thinking_tokens": 2050
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19214,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1081,
+          "cache_read_input_tokens": 40476,
+          "cache_creation_input_tokens": 1236,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1236
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1287,
+        "outputTokens": 789,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4440,
+        "webSearchRequests": 0,
+        "costUSD": 0.011736799999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 5032,
+        "cacheReadInputTokens": 359317,
+        "cacheCreationInputTokens": 19214,
+        "webSearchRequests": 0,
+        "costUSD": 0.1990794,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Summary\n\n- Replace the API gateway's fixed-window rate limiter with a token bucket.\n- Fixed-window resets let a client burst to 2x its limit, all of the previous window's quota at 23:59 and all of the next window's at 00:00, slamming backend services with clustered 429s.\n- Token bucket refills continuously, so throughput smooths out and 429s scale with sustained load instead of spiking at boundaries.\n- Bucket capacity and refill rate are set per client tier, matching the old window size and quota, so default limits are unchanged.\n- Existing 429 headers (`Retry-After`, `X-RateLimit-Remaining`) are preserved. `X-RateLimit-Remaining` now reflects available tokens instead of window count.\n\n## Test plan\n\n- [ ] Unit tests for bucket refill math, including fractional token accrual and capacity clamping.\n- [ ] Load test comparing 429 distribution under bursty traffic against the old limiter.\n- [ ] Verify per-tier limits are unchanged under steady traffic.\n- [ ] Confirm `Retry-After` and `X-RateLimit-Remaining` headers stay correct at the bucket boundary.",
+    "ttft_ms": 2503,
+    "ttft_stream_ms": 1228,
+    "time_to_request_ms": 171,
+    "type": "result",
+    "duration_ms": 61084,
+    "uuid": "a015ac1d-f790-44a0-b0cc-a8ace12319ab"
+  }
+}

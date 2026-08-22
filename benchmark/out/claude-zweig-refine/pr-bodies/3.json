@@ -1,0 +1,125 @@
+{
+  "id": "cache-invalidation",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a PR description for a change that fixes a cache invalidation bug where stale user profile data was served for up to 10 minutes after an update.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 28,
+    "cache_creation_input_tokens": 24133,
+    "cache_read_input_tokens": 544284,
+    "output_tokens": 7728,
+    "total_tokens": 576173
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 90883,
+    "num_turns": 18,
+    "stop_reason": "end_turn",
+    "session_id": "65d0c339-0b25-4043-b76d-b8d9d368def0",
+    "total_cost_usd": 0.29499059999999994,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 24133,
+      "cache_read_input_tokens": 544284,
+      "output_tokens": 7728,
+      "output_tokens_details": {
+        "thinking_tokens": 3619
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24133,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 418,
+          "cache_read_input_tokens": 46072,
+          "cache_creation_input_tokens": 559,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 559
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1301,
+        "outputTokens": 888,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4456,
+        "webSearchRequests": 0,
+        "costUSD": 0.012265799999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 28,
+        "outputTokens": 7728,
+        "cacheReadInputTokens": 544284,
+        "cacheCreationInputTokens": 24133,
+        "webSearchRequests": 0,
+        "costUSD": 0.28272479999999994,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## fix: invalidate user profile cache on write instead of relying on ttl expiry\n\nProfile updates were served stale for up to 10 minutes because the cache expired only on TTL, not on write. A user could update their profile and still see, or show other viewers, the old data from any node whose cache hadn't expired yet.\n\n### Changes\n\n- Invalidate the profile cache entry synchronously inside the update transaction, before it returns success.\n- Key the cache by user ID rather than by user ID plus requested fields, so a partial-field update can't leave other cached shapes of the same profile stale.\n- Add a regression test that writes a profile, reads it back immediately, and asserts the fresh value comes back (this used to flake against the stale cache).\n\nThe fix invalidates rather than updates the cache entry in place, so the next read repopulates it from the source of truth. This costs one extra cache miss per update, but it avoids letting two concurrent writes race to update the same entry, which could otherwise leave the cache holding a value that matches neither write.\n\nTTL stays at 10 minutes. It's still the right ceiling for staleness under normal read traffic, and lowering it would just trade this bug for higher load on the backing store. The real fix was making writes invalidate the cache, not shortening the window this bug happened to expose.",
+    "ttft_ms": 2386,
+    "ttft_stream_ms": 1922,
+    "time_to_request_ms": 276,
+    "type": "result",
+    "duration_ms": 90213,
+    "uuid": "f6e2b83c-5aad-4b11-9266-90e0740149c7"
+  }
+}

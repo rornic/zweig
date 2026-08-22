@@ -1,0 +1,122 @@
+{
+  "id": "last-library",
+  "theme": "short-stories",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a short story about the last librarian in a city after everyone else has left.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10550,
+    "cache_read_input_tokens": 53650,
+    "output_tokens": 886,
+    "total_tokens": 65090
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 18247,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "db483bc4-6821-4332-993a-5890785bfcfe",
+    "total_cost_usd": 0.062801,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10550,
+      "cache_read_input_tokens": 53650,
+      "output_tokens": 886,
+      "output_tokens_details": {
+        "thinking_tokens": 29
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10550,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 799,
+          "cache_read_input_tokens": 31172,
+          "cache_creation_input_tokens": 1856,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1856
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 938,
+        "outputTokens": 13,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001003,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 886,
+        "cacheReadInputTokens": 53650,
+        "cacheCreationInputTokens": 10550,
+        "webSearchRequests": 0,
+        "costUSD": 0.061798000000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The keys still worked. That was the first thing Mira noticed, three years after the last bus left the square: the reading room lock still turned, the lights still came up bank by bank when she walked the aisles.\n\nShe kept the hours anyway. Nine to five, six days a week, the seventh for repairs. Nobody had told her to. Nobody was left to tell her anything, unless you counted the radio, and the radio had stopped counting anything but static since spring.\n\nMornings she did rounds. Water damage on the third floor, from a roof seam that widened every winter and that she patched with tar she'd learned to mix from a manual in the 690s. Mould in periodicals, which she'd given up on and sealed behind plastic sheeting, a small grief she visited weekly like a grave. Rot in the returns bin, always, because someone had died holding four books and she hadn't had the heart to open the bag to see whose hands had touched them last.\n\nAfternoons were for the catalogue. She was recopying it by hand, the whole of it, onto paper stock salvaged from the print shop across the square, because the terminals had gone dark with the grid two winters back and she did not trust her own memory to outlast her. A librarian who forgets where a book lives has stopped being a librarian. She had watched that happen to old Prosek, in the last months before he walked north with the others, and she was not going to let it happen to herself.\n\nShe did not think of it as loneliness. She thought of it as custody. The building held four hundred thousand volumes and she was the only appointed keeper of what each one meant, which shelf, which century, which reader had dog-eared which page in a language nobody spoke anymore in this city. If she left, the meaning left with her. The books would still be paper and glue. But paper and glue is not a library. A library is the person who can find the thing you didn't know you needed.\n\nIn the evenings, before the light went, she read to the empty rows. Not for herself, she told herself, though there was no one to check the claim. She had started with children's books, out of some instinct toward hope, then moved to poetry, then, longest of all, to the letters people had left folded into returns over decades, notes never meant for her, meant for whoever came next.\n\nShe was the one who came next. She read them anyway, aloud, so the room would not forget the sound of a voice being kind to it.\n\nThen she closed up, checked the locks that no one would test, and went home past a hundred dark windows to a city that had become, in her keeping, the single largest room in the world still waiting for somebody to walk in.",
+    "ttft_ms": 2289,
+    "ttft_stream_ms": 1034,
+    "time_to_request_ms": 167,
+    "type": "result",
+    "duration_ms": 17331,
+    "uuid": "b7eb3c13-bb6c-43dc-928f-270710510d82"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "id": "consistent-hashing",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-write",
+  "prompt": "Explain consistent hashing and why it's used for distributing keys across a cache cluster instead of simple modulo hashing.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 16380,
+    "cache_read_input_tokens": 47858,
+    "output_tokens": 919,
+    "total_tokens": 65161
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14936,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "f0efcfa4-44e5-46eb-b0e6-8d38652f0c53",
+    "total_cost_usd": 0.0853106,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 16380,
+      "cache_read_input_tokens": 47858,
+      "output_tokens": 919,
+      "output_tokens_details": {
+        "thinking_tokens": 33
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16380,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 828,
+          "cache_read_input_tokens": 31189,
+          "cache_creation_input_tokens": 1860,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1860
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 946,
+        "outputTokens": 15,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001021,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 919,
+        "cacheReadInputTokens": 47858,
+        "cacheCreationInputTokens": 16380,
+        "webSearchRequests": 0,
+        "costUSD": 0.0842896,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "A cache cluster splits its key space across N nodes so no single machine holds everything. The naive approach hashes each key and takes `hash(key) mod N` to pick a node. It's simple and spreads keys evenly, but it collapses the moment N changes.\n\nAdd or remove a node and N changes, so `mod N` changes for nearly every key. A cluster going from 4 nodes to 5 remaps something like 80% of keys to a different owner. Every one of those keys is now a cache miss: the value sits on the old node, but lookups query the new one and find nothing. At cluster scale, that's a thundering herd against the backing database right when the cluster is already in flux from a scaling or failover event.\n\nConsistent hashing fixes this by hashing nodes and keys onto the same ring (typically 0 to 2^32-1, using something like MD5 or the top 32 bits of SHA-1). Each node's hash places it at a point on the ring. To find a key's owner, hash the key and walk clockwise to the first node encountered. Ownership is a proximity relationship on the ring, not an arithmetic function of the current node count.\n\nThat changes what happens when membership changes. Adding a node only remaps the keys between it and its counterclockwise neighbor, the ones that now find a closer node first. Removing a node only remaps that node's own keys, which fall to the next one clockwise. Everyone else's key-to-node mapping is untouched. Expected remap fraction is roughly 1/N (or 2/N for a removal), not a near-total reshuffle.\n\nPlain ring hashing has its own problem: with few nodes, hash points cluster unevenly and some nodes end up owning a disproportionate share of the ring. The standard fix is virtual nodes, hashing each physical node to dozens or hundreds of points on the ring instead of one. More points per node smooths the distribution and means a single node's failure spreads its load across many neighbors instead of dumping it all on one.\n\nThis is why systems like Memcached client libraries, DynamoDB, Cassandra, and Riak use consistent hashing for partitioning. Rendezvous hashing (highest random weight) solves the same problem with a different mechanism, computing a weight per node per key and picking the max, and is a viable alternative where its O(N) lookup cost per key is acceptable.\n\nThe tradeoff against modulo hashing is small bookkeeping (maintaining the ring, tracking virtual nodes) for a large operational win: nodes can join and leave a live cluster with proportional, not catastrophic, cache disruption.",
+    "ttft_ms": 2886,
+    "ttft_stream_ms": 1599,
+    "time_to_request_ms": 219,
+    "type": "result",
+    "duration_ms": 14169,
+    "uuid": "6f12b4fc-575b-4a00-b0fc-8b64c209c7c7"
+  }
+}

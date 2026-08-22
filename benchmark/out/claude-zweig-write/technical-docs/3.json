@@ -1,0 +1,122 @@
+{
+  "id": "git-rebase-vs-merge",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a short internal doc explaining when to use git rebase vs git merge, for a team that keeps getting confused about it.\n\nAim for 300\u2013450 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    300,
+    450
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10568,
+    "cache_read_input_tokens": 53666,
+    "output_tokens": 877,
+    "total_tokens": 65115
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14778,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "11e1e21e-d5ff-418b-88cd-1d015bf8f24a",
+    "total_cost_usd": 0.0627992,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10568,
+      "cache_read_input_tokens": 53666,
+      "output_tokens": 877,
+      "output_tokens_details": {
+        "thinking_tokens": 31
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10568,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 789,
+          "cache_read_input_tokens": 31188,
+          "cache_creation_input_tokens": 1858,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1858
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 946,
+        "outputTokens": 14,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001016,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 877,
+        "cacheReadInputTokens": 53666,
+        "cacheCreationInputTokens": 10568,
+        "webSearchRequests": 0,
+        "costUSD": 0.0617832,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "# Rebase vs. Merge\n\n## Default: rebase your feature branch on main\n\nBefore opening a PR, run `git rebase main` on your feature branch. This keeps history linear and makes each commit reviewable on its own. Force-push after (`git push --force-with-lease`), since rebase rewrites commit hashes.\n\nRules:\n- Only rebase branches nobody else has pulled. Once someone else has commits on top of yours, rebasing rewrites shared history and breaks their branch.\n- Never rebase `main`. It's shared; rewriting it forces everyone else to reconcile diverged histories.\n- Resolve conflicts commit by commit. Rebase replays your commits one at a time onto the new base, so you may hit the same conflict more than once if it spans several commits.\n\n## Default: merge into main\n\nMerging a PR into `main` should be a real merge commit, not a rebase or squash, unless the team has agreed on squash for that repo. The merge commit marks where a feature landed and groups its commits for `git bisect` and `git log --first-parent`.\n\n## When to use each\n\n**Rebase:**\n- Updating your feature branch with the latest `main` before or during review.\n- Cleaning up your own commit history before opening a PR (squashing WIP commits, reordering, rewriting messages) via `git rebase -i`.\n- Any branch that's still private to you.\n\n**Merge:**\n- Landing a finished PR into `main`.\n- Combining any branch that other people have already pulled or built on. Rebasing it would rewrite commits they depend on.\n- You want an explicit record of when and how branches diverged and joined.\n\n## Why the confusion\n\nBoth commands answer \"how do I combine this branch with that one,\" but they preserve different things. Merge preserves the actual sequence of events, two branches existed, and now they don't. Rebase preserves a clean story, as if you'd built your feature on top of the latest `main` all along, discarding the messier true order.\n\nPick based on whether the branch is still private (rebase freely) or already shared (merge, don't rebase). That's the one rule that resolves most of the disagreements.\n\n## If you rebase and break something\n\nIf you force-push a rebased branch and a teammate's local copy diverges, they need to reset their branch to match yours (`git fetch && git reset --hard origin/<branch>`), not merge the two histories. Warn them before you force-push a shared branch, or better, don't rebase it at all.",
+    "ttft_ms": 1521,
+    "ttft_stream_ms": 944,
+    "time_to_request_ms": 140,
+    "type": "result",
+    "duration_ms": 13823,
+    "uuid": "f7bc69f3-c840-4e8a-8fd2-f0cf1cac2d7c"
+  }
+}
