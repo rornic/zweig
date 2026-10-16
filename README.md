@@ -43,7 +43,7 @@
 
 Your agent writes too much. Zweig makes it write like a novelist who threw away eight hundred of every thousand pages.
 
-Two writing skills for Claude Code and Codex, built on the drafting process Stefan Zweig described in his memoir. Write dense, then cut to intensify.
+Two writing skills for Claude Code and Codex, built on Stefan Zweig's drafting process. Write dense, then cut to intensify.
 
 ## Before and after
 
@@ -57,7 +57,7 @@ A real run of `zweig-refine`, from [`EXAMPLE.md`](skills/zweig-refine/EXAMPLE.md
 
 > Deployment now requires a build step (~5 min) before the deploy step. The deploy step is blocked with an error until the build finishes.
 
-Every fact survives. The last fix came from a blind reviewer who caught an ambiguity three self-review passes missed.
+Every instruction survives. The last fix came from a blind reviewer who caught an ambiguity three self-review passes missed.
 
 ## The skills
 
@@ -67,15 +67,13 @@ Loads automatically before your agent drafts any prose (docs, PR descriptions, c
 
 ### ✂️ `zweig-refine`
 
-The cut-draft-repeat loop, run on request.
-
 1. **Cut.** Every removable word, phrase, or sentence goes, as a real edit against a real file.
-2. **Repeat.** Reread and cut again until a pass makes zero edits (capped at 4 passes).
+2. **Repeat.** Reread and cut until a pass makes zero edits (4 passes max).
 3. **Fresh-reader gate.** A separate subagent, blind to the conversation that produced the draft, reads only the final text and flags anything confusing or missing.
 
 The gate exists because the context that made the cuts can't see its own blind spots.
 
-`zweig-write` offers to run `zweig-refine` once a draft is done. You can also ask for it any time ("refine this", "tighten the README").
+`zweig-write` offers to run it once a draft is done. Or ask any time ("refine this", "tighten the README").
 
 ## Install
 
@@ -95,7 +93,7 @@ codex plugin add zweig@zweig
 
 ## The quote
 
-The whole method, in Zweig's own words, from *The World of Yesterday*.
+The whole method, in Zweig's words, from *The World of Yesterday*.
 
 <details>
 <summary><b>Read the passage</b></summary>
