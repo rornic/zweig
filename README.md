@@ -34,11 +34,11 @@ Every instruction survives. The last fix came from a blind reviewer who caught a
 
 ## The skills
 
-### ✍️ `zweig-write`
+### `zweig-write`
 
-Loads automatically before your agent drafts any prose (docs, PR descriptions, commit messages, code comments, Slack messages). Throat-clearing, hedges, restatement, and boilerplate transitions never make it onto the page. Commands, flags, warnings, and failure modes always do.
+Loads automatically before your agent drafts any prose (docs, PR descriptions, commit messages, code comments, Slack messages). Throat-clearing, hedges, restatement, boilerplate transitions, and decorative emoji never make it onto the page. Commands, flags, warnings, and failure modes always do.
 
-### ✂️ `zweig-refine`
+### `zweig-refine`
 
 1. **Cut.** Every removable word, phrase, or sentence goes, as a real edit against a real file.
 2. **Repeat.** Reread and cut until a pass makes zero edits (4 passes max).
