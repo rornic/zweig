@@ -1,33 +1,6 @@
 <div align="center">
 
-```text
-                 _..----------.._
-             .-'' ////////////// ``-.
-           .' ///////////////////////`.
-          / ////////''''''''''''\\\\\\\ \
-         | ////''                 ``\\\ |
-         |//'                        `\\|
-         |/                            \|
-         |     ._______      _______.   |
-        (|      `-----'      `-----'    |)
-        (|      -(@)-          -(@)-    |)
-         |                              |
-         |              ||              |
-          \             ||              /
-           |           (__)            |
-           |     __.==========.__      |
-           |    '~~~~~~~~~~~~~~~~'     |
-            \                         /
-             `.        `----'       .'
-               `-._             _.-'
-                   |`--.....--'|
-          ___..--''|           |``--..___
-       .-'         |\    ^    /|         `-.
-      /            | \  /|\  / |            \
-     /             |  \/ | \/  |             \
-
-            Z   W   E   I   G
-```
+<img src="assets/zweig.svg" width="420" alt="Portrait of Stefan Zweig drawn in Braille dots">
 
 **_"If I have mastered any kind of art, it is the art of leaving things out."_**
 <br><sub>Stefan Zweig, <i>The World of Yesterday</i></sub>
