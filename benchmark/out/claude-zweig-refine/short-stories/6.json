@@ -1,0 +1,125 @@
+{
+  "id": "mission-control-twin",
+  "theme": "short-stories",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a short story about a woman working mission control for the space mission her twin sister is on.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 28,
+    "cache_creation_input_tokens": 29949,
+    "cache_read_input_tokens": 592954,
+    "output_tokens": 11117,
+    "total_tokens": 634048
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 112966,
+    "num_turns": 18,
+    "stop_reason": "end_turn",
+    "session_id": "09f1c387-8817-49a9-be92-2b6a57eb280d",
+    "total_cost_usd": 0.36131735000000004,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 29949,
+      "cache_read_input_tokens": 592954,
+      "output_tokens": 11117,
+      "output_tokens_details": {
+        "thinking_tokens": 4964
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29949,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 781,
+          "cache_read_input_tokens": 51300,
+          "cache_creation_input_tokens": 1147,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1147
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1566,
+        "outputTokens": 653,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4735,
+        "webSearchRequests": 0,
+        "costUSD": 0.011704550000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 28,
+        "outputTokens": 11117,
+        "cacheReadInputTokens": 592954,
+        "cacheCreationInputTokens": 29949,
+        "webSearchRequests": 0,
+        "costUSD": 0.34961280000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Console 2, headset on, four hours to launch.\n\nMaren's screen showed telemetry, not her sister. Green traces, nominal ranges, a heartbeat rendered as a waveform instead of a face. Somewhere above the room's false ceiling, past the building and the sky, Elin was strapped into a couch running the checklist they'd both memorized as backup crew, before the roster narrowed to one.\n\n\"Flight, EECOM. Coolant loop B is reading half a degree warm.\"\n\n\"Copy, EECOM. Trending it.\"\n\nShe'd said the words a thousand times in sims. They didn't feel different now. That was the part nobody warned her about, that the console didn't know whose sister was up there. It just wanted numbers inside boundaries.\n\nAt minute forty of the EVA, Elin's suit pressure ticked down two-tenths of a psi. Not alarming. Not nothing.\n\n\"EECOM, Flight, talk to me.\"\n\nMaren pulled the trend line, cross-checked the seal temperature, watched the number hold instead of fall. A slow stabilization, not a leak.\n\n\"Flight, EECOM. Within tolerance. Recommend continue.\"\n\n\"Copy. Continue.\"\n\nRecommend continue. She'd said it about a pressure reading that belonged to the person who'd shared a womb with her, who once broke Maren's arm falling out of a tree they'd both been told not to climb. Recommend continue.\n\nNobody in the room knew. It wasn't in her file, not because she'd hidden it but because nobody had asked, and she hadn't offered. The sisters hadn't shared a surname since Elin's marriage, and the flight surgeon who'd cleared Maren for this rotation had looked at two different names and seen two different women.\n\nThe pressure held for the rest of the EVA. When Elin cycled back through the airlock, her voice came through crackling and ordinary, complaining about a stuck glove seal. Maren logged the anomaly closed and moved to the next line on the checklist. That was the job. Grief and pride and terror all read the same on a console that only measured coolant and psi and heartbeats she wasn't allowed to call by name.\n\nShe pulled off her headset at shift handover and sat for a moment with her hands flat on the console, feeling the bill for four hours of calm come due somewhere else, later, alone.\n\nThen she stood and went to check on Elin's kids, the way she always did.",
+    "ttft_ms": 1885,
+    "ttft_stream_ms": 1226,
+    "time_to_request_ms": 248,
+    "type": "result",
+    "duration_ms": 112463,
+    "uuid": "a47e9898-0241-400d-af00-ff099abcf430"
+  }
+}

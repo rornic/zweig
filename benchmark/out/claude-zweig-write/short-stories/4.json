@@ -1,0 +1,122 @@
+{
+  "id": "gardener-drought",
+  "theme": "short-stories",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a short story about a gardener who keeps a garden alive through a drought, for reasons that become clear at the end.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10559,
+    "cache_read_input_tokens": 53664,
+    "output_tokens": 812,
+    "total_tokens": 65039
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 17411,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "fd6425e3-2f9c-4b6a-86fb-c4e0fb677987",
+    "total_cost_usd": 0.0621128,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10559,
+      "cache_read_input_tokens": 53664,
+      "output_tokens": 812,
+      "output_tokens_details": {
+        "thinking_tokens": 24
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10559,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 731,
+          "cache_read_input_tokens": 31186,
+          "cache_creation_input_tokens": 1851,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1851
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 946,
+        "outputTokens": 14,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001016,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 812,
+        "cacheReadInputTokens": 53664,
+        "cacheCreationInputTokens": 10559,
+        "webSearchRequests": 0,
+        "costUSD": 0.0610968,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Mirela watered the tomatoes at five, before the heat came up off the concrete. Then the beans, then the squash, working the hose in slow arcs so the water sank instead of running off. The reservoir was down to a smell of mud and the county had cut allotments twice since June. Her neighbors had let their beds go brown weeks ago.\n\nShe hadn't.\n\nShe rationed like a quartermaster. Gray water from the kitchen sink, saved in buckets. A soaker line buried an inch under the mulch instead of a sprinkler, because a sprinkler lost a third of everything to the air before it hit the ground. She walked the rows at dusk with a trowel, checking moisture two knuckles down, moving water from where the soil held it to where it didn't.\n\nHer son Danny called from the city every Sunday. \"You should let it die, Ma. Nobody's going to blame you for a drought.\"\n\n\"I'm not doing it for anybody to blame or not blame,\" she said, and changed the subject to his job.\n\nThe garden had been her husband Teodor's before it was hers, forty years of it, a strip of land behind a rented house that they'd never owned but had treated like scripture. He'd died in March. She'd buried him on a Tuesday and come home to a bed of dormant asparagus crowns and a shed full of his tools, still arranged the way he liked them, stakes on the left, twine on the right.\n\nIn July, the drought notice came. In August, half the block gave up.\n\nShe kept going because giving up meant admitting the garden had been his, past tense, a thing that ended when he did. As long as the tomatoes kept setting fruit and the beans kept climbing the poles he'd built, some argument against that stayed open. She wasn't watering vegetables. She was watering the fact that he'd stood in this same dirt in his boots at five in the morning for forty summers, and that fact needed proof, and the proof needed water.\n\nThe first cool front came in September, a break in the heat that smelled like rain three days before it arrived. Mirela stood at the fence line with a full harvest basket, tomatoes still warm from yesterday's sun, and let herself cry for the first time since the funeral. Not from grief. From relief that she hadn't had to find out yet what she'd be, without something of his left to keep alive.",
+    "ttft_ms": 2253,
+    "ttft_stream_ms": 1685,
+    "time_to_request_ms": 196,
+    "type": "result",
+    "duration_ms": 16711,
+    "uuid": "618c9c4b-5230-4013-b7c6-d1a261af255d"
+  }
+}

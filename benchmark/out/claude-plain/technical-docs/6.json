@@ -1,0 +1,122 @@
+{
+  "id": "cap-theorem",
+  "theme": "technical-docs",
+  "condition": "claude-plain",
+  "prompt": "Explain the CAP theorem and what it actually constrains a distributed database to choose between during a network partition.\n\nAim for 300\u2013450 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    300,
+    450
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3157,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 851,
+    "total_tokens": 22449
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 13828,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "23b53b97-9380-4d71-916c-1d9b3e1e6d1d",
+    "total_cost_usd": 0.025827799999999998,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3157,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 851,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3157,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 851,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3157,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3157
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 943,
+        "outputTokens": 11,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.000998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 851,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3157,
+        "webSearchRequests": 0,
+        "costUSD": 0.0248298,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The CAP theorem states that a distributed data store can provide at most two of three guarantees simultaneously:\n\n- **Consistency (C)**: every read receives the most recent write or an error \u2014 all nodes see the same data at the same time.\n- **Availability (A)**: every request to a non-failed node receives a response, without guarantee it's the latest write.\n- **Partition tolerance (P)**: the system continues operating despite arbitrary message loss or delay between nodes (a network partition).\n\nThe key insight is that this isn't really a free three-way choice. In any distributed system, network partitions *will* happen \u2014 cables get cut, switches fail, packets drop. Since partition tolerance isn't optional for a system spread across multiple nodes, the real choice CAP forces is between **C and A specifically during a partition**. When nodes can't communicate:\n\n- Choose **CP**: nodes on the minority side of the partition refuse writes (or reads) to avoid serving stale or divergent data. The system sacrifices availability to guarantee consistency. Example: a system that returns an error rather than risk serving outdated data \u2014 e.g., HBase, or Zookeeper for its coordination data.\n- Choose **AP**: every node keeps accepting reads and writes even though they can't sync with each other, so different clients may see different values until the partition heals. The system sacrifices consistency to stay available. Example: Cassandra or DynamoDB in their default configurations.\n\nWhen there's *no* partition, a system can actually be both consistent and available \u2014 CAP only bites during the partition window. This is why the more useful mental model (from Daniel Abadi's PACELC extension) is: **if Partitioned, choose A or C; Else, choose Latency or Consistency.** Even without a partition, systems trade consistency against latency, which CAP alone doesn't capture.\n\nA few common misreadings worth avoiding:\n- CAP doesn't mean \"pick any two\" as a static architectural label (you can't just discard partition tolerance for a genuinely distributed system).\n- Consistency here means linearizability, not the \"C\" in ACID.\n- Real systems often blend the choice per-operation or let it be tunable (e.g., Cassandra's per-query consistency levels, DynamoDB's eventually-vs-strongly-consistent reads) rather than being purely CP or AP everywhere.\n\nIn practice, the theorem is a lens for reasoning about failure-mode tradeoffs, not a rigid classification \u2014 the interesting engineering happens in *how* a system degrades gracefully during the partition and reconciles state afterward (e.g., conflict resolution, read repair, vector clocks).",
+    "ttft_ms": 13156,
+    "ttft_stream_ms": 2293,
+    "time_to_request_ms": 194,
+    "type": "result",
+    "duration_ms": 13170,
+    "uuid": "c1615bd8-6d2b-46e2-8a65-781165e75d0b"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "tls-handshake",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-refine",
+  "prompt": "Explain the TLS 1.3 handshake process and what changed from TLS 1.2.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 31844,
+    "cache_read_input_tokens": 549437,
+    "output_tokens": 12902,
+    "total_tokens": 594209
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 138442,
+    "num_turns": 21,
+    "stop_reason": "end_turn",
+    "session_id": "0a504430-133e-4f8f-b962-aa15d19a60c1",
+    "total_cost_usd": 0.3793287,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 31844,
+      "cache_read_input_tokens": 549437,
+      "output_tokens": 12902,
+      "output_tokens_details": {
+        "thinking_tokens": 6255
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31844,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 994,
+          "cache_read_input_tokens": 52765,
+          "cache_creation_input_tokens": 1577,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1577
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1741,
+        "outputTokens": 840,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4878,
+        "webSearchRequests": 0,
+        "costUSD": 0.0129933,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 26,
+        "outputTokens": 12902,
+        "cacheReadInputTokens": 549437,
+        "cacheCreationInputTokens": 31844,
+        "webSearchRequests": 0,
+        "costUSD": 0.36633540000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "399 words, within the 350\u2013500 range. Final deliverable:\n\nTLS 1.3's handshake establishes a shared key in one round trip instead of two, and removes cryptographic options that caused real vulnerabilities in 1.2.\n\n**The 1.3 handshake**\n\n1. **ClientHello.** The client sends its supported cipher suites, a list of key-exchange groups (e.g. X25519, secp256r1), and a key share guessed for the group it expects the server to pick.\n2. **ServerHello.** The server picks a cipher suite and group, returns its key share, and derives the shared secret via (EC)DHE. From this point every message is encrypted.\n3. **EncryptedExtensions, Certificate, CertificateVerify, Finished.** The server sends its certificate and a signature over the handshake transcript to prove possession of the private key, then a Finished MAC.\n4. **Client Finished.** The client verifies the certificate and signature, sends its own Finished MAC, and application data follows.\n\nThat speculative key share is what makes this 1-RTT. The server never needs a round trip dedicated to key agreement. With **0-RTT resumption**, a returning client can send application data alongside its first message, using a pre-shared key from an earlier session, at the cost of losing forward secrecy and replay protection for that first flight.\n\n**What changed from 1.2**\n\n- **One round trip instead of two.** TLS 1.2 negotiated the cipher suite, exchanged key material, then confirmed, usually 2-RTT before data flowed. TLS 1.3 collapses negotiation and key exchange into one exchange.\n- **No more RSA key exchange.** Every 1.3 handshake uses (EC)DHE, so every session gets forward secrecy. TLS 1.2 still allowed RSA key exchange, which offered none.\n- **Weak primitives removed.** No RC4, no CBC-mode ciphers, no SHA-1 or MD5 in the handshake, no static Diffie-Hellman, no arbitrary custom DH groups. This closes off attacks like BEAST, Lucky 13, and Logjam that targeted 1.2's cipher flexibility.\n- **Renegotiation removed.** 1.2 allowed mid-session renegotiation, the source of a well-known MITM vulnerability (CVE-2009-3555). 1.3 has no renegotiation.\n- **Compression removed.** Eliminates the CRIME/BREACH class of attacks.\n- **Handshake encrypted earlier.** In 1.2, the certificate and most handshake messages were sent in cleartext. In 1.3, everything after ServerHello is encrypted, hiding more metadata from passive observers.\n- **Downgrade protection.** The server embeds a special value in its random field if it detects a downgrade attempt, letting clients detect deliberate version rollback.\n\nThe net effect is fewer round trips, a smaller and audited set of cryptographic primitives, and forward secrecy guaranteed on every connection rather than optional.",
+    "ttft_ms": 2066,
+    "ttft_stream_ms": 1448,
+    "time_to_request_ms": 94,
+    "type": "result",
+    "duration_ms": 137644,
+    "uuid": "5d9329db-ad36-48d0-a9fc-33f99e6ab961"
+  }
+}

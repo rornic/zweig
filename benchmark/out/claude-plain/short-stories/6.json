@@ -1,0 +1,122 @@
+{
+  "id": "mission-control-twin",
+  "theme": "short-stories",
+  "condition": "claude-plain",
+  "prompt": "Write a short story about a woman working mission control for the space mission her twin sister is on.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3150,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 909,
+    "total_tokens": 22500
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 16346,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "c1b276a9-cb17-45e4-becb-3e2b89de987a",
+    "total_cost_usd": 0.0263868,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3150,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 909,
+      "output_tokens_details": {
+        "thinking_tokens": 22
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3150,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 909,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3150,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3150
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 940,
+        "outputTokens": 13,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001005,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 909,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3150,
+        "webSearchRequests": 0,
+        "costUSD": 0.0253818,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "**Signal Lock**\n\nMara's headset crackled at 03:14 mission-clock, and for a second she heard her own voice come back at her \u2014 not really, just the trick her ear played whenever Elena spoke. Same pitch, same flat vowels from growing up in the same house. Twenty-three years of being told *you two sound identical* had never stopped being strange, and it was stranger now, filtered through 240,000 miles of static.\n\n\"Houston, Artemis-7, requesting confirmation on burn parameters.\"\n\n\"Copy, Artemis-7.\" Mara's fingers moved over the console without her telling them to. \"Burn parameters confirmed. You are go.\"\n\nNobody on the floor blinked at the exchange anymore. The first week, there had been glances \u2014 the flight director had actually pulled her aside and asked if she wanted a reassignment, gentler duties, something that didn't put her in Elena's ear for the riskiest ninety seconds of the mission. Mara had said no. She was the best guidance officer they had. She'd trained for this longer than Elena had trained for the flight itself. And there was a selfish truth underneath the professional one: she wanted to be the voice in her sister's helmet. If something went wrong up there, she wanted it to be her voice that Elena heard last, steady, unshaking, telling her what to do next.\n\nThe burn window opened. Mara watched the telemetry crawl across her screen \u2014 velocity, attitude, fuel margin \u2014 numbers that used to be abstractions and were now, unmistakably, her sister's pulse.\n\n\"Ignition in ten,\" she said.\n\n\"Copy, ten.\" A pause, then, quieter, off the official channel but not quite off it: \"Hey. Remember when we used to do this with the swing set? Count down and jump?\"\n\nMara's throat tightened. She kept her eyes on the board. \"You always jumped on three. Cheater.\"\n\n\"You always let me.\"\n\n\"Five,\" Mara said, and her voice didn't waver, because six years of simulations had taught her exactly how to keep it from wavering. \"Four. Three.\"\n\nElena didn't jump early this time. The burn fired clean, the numbers held, and for ninety seconds the room was silent except for the hiss of open comms and the soft murmur of confirmations passed hand to hand down the row.\n\n\"Burn complete,\" Elena said. \"We are go for lunar orbit insertion.\"\n\nThe room exhaled as one organism. Someone two rows back started clapping and it spread, but Mara just sat there a moment, palms flat on the console, feeling her own heartbeat slow to match the number ticking steady on the screen in front of her.\n\n\"Good burn, Artemis-7,\" she said. \"Good burn, El.\"\n\n\"Copy that, Mara. See you on the other side.\"",
+    "ttft_ms": 1852,
+    "ttft_stream_ms": 1187,
+    "time_to_request_ms": 269,
+    "type": "result",
+    "duration_ms": 15604,
+    "uuid": "f4fc540b-bfba-4fab-ae48-86e5562ef131"
+  }
+}

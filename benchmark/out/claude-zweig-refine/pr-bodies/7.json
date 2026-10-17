@@ -1,0 +1,125 @@
+{
+  "id": "n-plus-one-fix",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a PR description for fixing an N+1 query in an API endpoint that only showed up under production load.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 22934,
+    "cache_read_input_tokens": 410058,
+    "output_tokens": 6999,
+    "total_tokens": 440013
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 90930,
+    "num_turns": 14,
+    "stop_reason": "end_turn",
+    "session_id": "1fbef078-30e6-4d57-83f9-a9abb65de15e",
+    "total_cost_usd": 0.2557724,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 22934,
+      "cache_read_input_tokens": 410058,
+      "output_tokens": 6999,
+      "output_tokens_details": {
+        "thinking_tokens": 3613
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22934,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 415,
+          "cache_read_input_tokens": 43710,
+          "cache_creation_input_tokens": 1722,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1722
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1266,
+        "outputTokens": 839,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4460,
+        "webSearchRequests": 0,
+        "costUSD": 0.0119908,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 6999,
+        "cacheReadInputTokens": 410058,
+        "cacheCreationInputTokens": 22934,
+        "webSearchRequests": 0,
+        "costUSD": 0.2437816,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "fix: eager-load associations to remove n+1 query on `GET /orders`\n\n- replace the per-order lookup in `OrdersController#index` with a single eager-loaded query (`includes(:line_items, :customer)`), cutting query count from O(n) to a fixed 3 regardless of page size\n- add a `bullet` gem check in CI so future n+1s fail the build instead of surfacing only under load\n- add a load test fixture (500 orders, 5k line items) to the perf suite to catch regressions\n\nThe endpoint was fast in staging and in every manual test. Staging never carries enough orders per page to expose the lookup. Production load pushed p99 latency past 4s during peak traffic, and a Honeycomb trace showed one query per order for `line_items` and another for `customer`, both issued inside a loop in the serializer. Query count scaled linearly with page size, so it stayed invisible until real traffic pushed page size and concurrency high enough to saturate the connection pool.\n\nThe fix moves the association loading into the controller query instead of the serializer, so ActiveRecord issues one query per association rather than one per row. Verified against production traffic replay. p99 dropped from 4.1s to 180ms at the same load, and connection pool checkout wait time returned to baseline.",
+    "ttft_ms": 6997,
+    "ttft_stream_ms": 2065,
+    "time_to_request_ms": 116,
+    "type": "result",
+    "duration_ms": 89993,
+    "uuid": "eb807e91-a6ea-4b2d-9d6b-d21f73b276ba"
+  }
+}

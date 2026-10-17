@@ -1,0 +1,122 @@
+{
+  "id": "cap-theorem",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-write",
+  "prompt": "Explain the CAP theorem and what it actually constrains a distributed database to choose between during a network partition.\n\nAim for 300\u2013450 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    300,
+    450
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10553,
+    "cache_read_input_tokens": 53661,
+    "output_tokens": 784,
+    "total_tokens": 65002
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 13209,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "d92987ce-17a0-4840-9130-07f38c3cd280",
+    "total_cost_usd": 0.061790199999999997,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10553,
+      "cache_read_input_tokens": 53661,
+      "output_tokens": 784,
+      "output_tokens_details": {
+        "thinking_tokens": 21
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10553,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 706,
+          "cache_read_input_tokens": 31183,
+          "cache_creation_input_tokens": 1848,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1848
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 943,
+        "outputTokens": 11,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.000998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 784,
+        "cacheReadInputTokens": 53661,
+        "cacheCreationInputTokens": 10553,
+        "webSearchRequests": 0,
+        "costUSD": 0.0607922,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "CAP theorem says a distributed system that replicates data across nodes can guarantee at most two of three properties: consistency, availability, and partition tolerance. In practice the choice isn't really three-way, because partitions happen regardless of what you'd prefer. A network split between nodes is a fact of distributed systems, not a design option, so partition tolerance isn't something you trade away. The real choice CAP forces is between consistency and availability, and only during a partition.\n\nConsistency here means linearizability: every read sees the most recent write, or an error, never stale data. Availability means every request to a non-failing node gets a response, even if it can't be guaranteed current.\n\nWhen a partition splits a cluster into two groups of nodes that can't talk to each other, each group has to decide how to handle incoming requests without knowing what's happening on the other side. A CP system chooses consistency: nodes that can't confirm they hold the latest state refuse to serve reads or writes, returning errors or timing out until the partition heals. This guarantees no client ever sees stale or conflicting data, at the cost of the system going dark for some clients during the split. An AP system chooses availability: every node keeps serving requests using whatever data it has locally, even though the two sides of the partition may now be diverging. This keeps the system responsive, but a client on one side may read a value that's already been overwritten on the other, and reconciling the divergence after the partition heals becomes the system's problem.\n\nOutside of a partition, this tradeoff doesn't apply. A healthy, fully connected cluster can be both consistent and available simultaneously, that's the normal operating mode most systems spend nearly all their time in. CAP only describes what happens at the edge case of a network split, not a permanent architectural stance.\n\nThis is also why CAP is often criticized as too coarse for real design decisions. Systems aren't purely CP or AP: they can choose different tradeoffs for different operations, or offer tunable consistency levels (Cassandra's quorum reads, for example). The more useful framing in practice is often PACELC, which extends CAP by noting that even without a partition, you still face a tradeoff between latency and consistency, since waiting for consensus across replicas costs time.",
+    "ttft_ms": 1811,
+    "ttft_stream_ms": 1242,
+    "time_to_request_ms": 169,
+    "type": "result",
+    "duration_ms": 12372,
+    "uuid": "f3c94527-3812-4d41-bd6c-2454a7740600"
+  }
+}

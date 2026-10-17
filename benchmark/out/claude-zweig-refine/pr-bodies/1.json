@@ -1,0 +1,125 @@
+{
+  "id": "flaky-test-fix",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a PR description for a fix to a flaky integration test that was failing due to a race condition between two async setup calls.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 24,
+    "cache_creation_input_tokens": 21982,
+    "cache_read_input_tokens": 454286,
+    "output_tokens": 5911,
+    "total_tokens": 482203
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 69882,
+    "num_turns": 13,
+    "stop_reason": "end_turn",
+    "session_id": "8a3fb701-2ff5-408e-a94f-24f2daeadd21",
+    "total_cost_usd": 0.24883975,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 21982,
+      "cache_read_input_tokens": 454286,
+      "output_tokens": 5911,
+      "output_tokens_details": {
+        "thinking_tokens": 1969
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21982,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 488,
+          "cache_read_input_tokens": 43620,
+          "cache_creation_input_tokens": 860,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 860
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1333,
+        "outputTokens": 595,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4507,
+        "webSearchRequests": 0,
+        "costUSD": 0.01089655,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 5911,
+        "cacheReadInputTokens": 454286,
+        "cacheCreationInputTokens": 21982,
+        "webSearchRequests": 0,
+        "costUSD": 0.2379432,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "fix: eliminate race condition in integration test setup\n\n## Summary\n\nThe `OrderProcessing` integration test suite failed intermittently in CI (about 1 in 15 runs) with connection-refused timeouts. Its `beforeAll` ran `startMockPaymentGateway()` and `seedTestDatabase()` in parallel via `Promise.all`, but `seedTestDatabase()` needs the gateway's port to configure webhook URLs. When the database call resolved first, it seeded a webhook pointing at port `undefined`, and every test that hit that webhook hung until timeout.\n\n`startMockPaymentGateway()` usually resolves within milliseconds, so the race stayed hidden until a busier CI runner flipped the ordering often enough to fail the suite.\n\n- `seedTestDatabase()` now awaits `startMockPaymentGateway()` and takes its port directly, instead of both running under `Promise.all`.\n- Added an assertion in `seedTestDatabase()` that the port argument is defined, so a future reordering fails immediately with a clear error instead of hanging.\n- Removed the 30s timeout bump added in a previous commit as a workaround. It masked the race rather than fixing it.\n\n## Test plan\n\n- [x] Ran the suite 50x locally with `--repeat=50`, no failures.\n- [x] Confirmed the new assertion throws when the port argument is omitted (verified by temporarily reverting the fix).\n- [x] Full CI run green.",
+    "ttft_ms": 2189,
+    "ttft_stream_ms": 1526,
+    "time_to_request_ms": 80,
+    "type": "result",
+    "duration_ms": 69274,
+    "uuid": "7f3a90a9-86d4-4b3c-8d55-e8969b4529f1"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "id": "clockmaker",
+  "theme": "short-stories",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a short story about a clockmaker who discovers one of his clocks is running backwards, and why.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10554,
+    "cache_read_input_tokens": 53659,
+    "output_tokens": 762,
+    "total_tokens": 64979
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14624,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "52c00a5a-8bc9-40f2-b547-73d14a30c8a1",
+    "total_cost_usd": 0.0615928,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10554,
+      "cache_read_input_tokens": 53659,
+      "output_tokens": 762,
+      "output_tokens_details": {
+        "thinking_tokens": 24
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10554,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 681,
+          "cache_read_input_tokens": 31181,
+          "cache_creation_input_tokens": 1851,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1851
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 942,
+        "outputTokens": 15,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.0010170000000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 762,
+        "cacheReadInputTokens": 53659,
+        "cacheCreationInputTokens": 10554,
+        "webSearchRequests": 0,
+        "costUSD": 0.06057580000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Ansel Marchetti had built four hundred and twelve clocks in his life, and he trusted every one of them the way other men trust their own pulse. So when the walnut regulator in the back workshop lost eleven minutes over a single night, he assumed dust in the escapement, nothing more.\n\nHe opened the case. The pendulum swung clean, the wheels turned true, and he found no fault. He reset the hands, wound it, and left it running.\n\nBy morning it had lost forty minutes. By the third night, it had gained none forward at all. It had gone backward.\n\nMarchetti was not a superstitious man. He had spent thirty years believing that any clock, taken apart far enough, would explain itself. He stripped this one to the plate, laid every wheel and pin on a felt cloth, and found nothing wrong that a jeweler's loupe could show him. He reassembled it exactly as it had been, wound it, and watched the second hand crawl counterclockwise past the twelve.\n\nIt was his wife's clock. She had died eight months before, and the walnut regulator was the last thing he'd built with her watching, sitting in the chair by the window, telling him he was hunched over his bench like a man trying to hide from time itself. He'd laughed at that. He hadn't stopped thinking about it since.\n\nHe sat with the open case a long while before he understood what his hands had done without telling him. In grief, rebuilding it, he had mounted the escape wheel a half-turn out of true, so that the pallet caught it on the wrong face. A clock is only an argument between two forces, the mainspring wanting to unwind all at once and the escapement making it wait. Reverse which tooth catches which, and the argument still holds, just running the other way.\n\nIt wasn't broken. It was exact, in reverse, because he had built it exact in reverse without noticing, the night he couldn't stop his hands from shaking.\n\nHe didn't fix it. He put the case back on, set it on the mantel instead of the workshop shelf, and let it run backward, the pendulum ticking off a life moving the wrong direction, which was, he thought, the only honest clock he had ever made.",
+    "ttft_ms": 1504,
+    "ttft_stream_ms": 944,
+    "time_to_request_ms": 105,
+    "type": "result",
+    "duration_ms": 13789,
+    "uuid": "145d2ab4-287d-4564-93a0-9bab0446e141"
+  }
+}

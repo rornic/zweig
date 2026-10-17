@@ -1,0 +1,122 @@
+{
+  "id": "train-stranger",
+  "theme": "short-stories",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a short story about two strangers who share a night train compartment during a blackout.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10557,
+    "cache_read_input_tokens": 53652,
+    "output_tokens": 959,
+    "total_tokens": 65172
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 21841,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "ff74436e-1f7f-4132-9333-d2f43c4bb0c3",
+    "total_cost_usd": 0.0635664,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10557,
+      "cache_read_input_tokens": 53652,
+      "output_tokens": 959,
+      "output_tokens_details": {
+        "thinking_tokens": 34
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10557,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 868,
+          "cache_read_input_tokens": 31174,
+          "cache_creation_input_tokens": 1861,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1861
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 959,
+        "cacheReadInputTokens": 53652,
+        "cacheCreationInputTokens": 10557,
+        "webSearchRequests": 0,
+        "costUSD": 0.06255640000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      },
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 940,
+        "outputTokens": 14,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.00101,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The lights failed somewhere past Katowice. No announcement, just the hum dying and the corridor bulbs going with it, and then the compartment held nothing but the blue outline of snow going by.\n\n\"They'll fix it at the border,\" the man said. He had the look of someone who traveled this line often, a scarf wound twice and a paperback he'd stopped pretending to read an hour ago.\n\n\"Or we'll sit here till Vienna.\" The woman's voice came from the other window seat, amused rather than annoyed. She'd boarded at the last stop with a single case and the particular stillness of someone leaving something behind rather than going toward something.\n\nNeither reached for a phone. The dark made that seem rude, somehow, like turning on a lamp in someone's face.\n\n\"I'm supposed to be at a funeral tomorrow,\" she said, to the window as much as to him. \"My uncle's. I haven't seen the family in six years.\"\n\nHe didn't offer condolences, which she seemed to appreciate. Instead he asked what he'd done, the uncle, and she told him: a vineyard that failed twice and succeeded once, spectacularly, right before the man's heart gave out. Prague passed as she talked, or its outskirts did, a smear of sodium light where the emergency lines still worked.\n\n\"My brother stopped speaking to me over the second failure,\" she said. \"Invested and lost it. He'll be there tomorrow. I don't know what I'll say to him.\"\n\nThe man considered this for a while, long enough that she thought the conversation had ended.\n\n\"Say nothing first,\" he said. \"Let him decide if six years is longer than a bad investment.\"\n\nShe laughed, short and real. \"You give advice like a man who's had practice being wrong.\"\n\n\"Twice divorced. I've had the funeral conversation from both directions.\"\n\nThe train slowed, then stopped fully, no station in sight, just white fields and a single farmhouse light. In the stillness the dark felt less like an absence and more like a room they'd been let into together, the kind of room where the ordinary rules about what strangers say to each other didn't quite apply.\n\n\"Would it help,\" he asked, \"to say it out loud once before you have to say it to him?\"\n\nShe didn't answer right away. Then she did, quietly, the whole apology she'd built and dismantled a dozen times on the drive to the station, and he listened without correcting or comforting, just listened, and somewhere in Moravia the lights came back on all at once, ordinary and unkind, and they sat blinking at each other like two people caught at something.\n\nShe reached for her book. He reached for his. Neither spoke again before Vienna, but when the train pulled in, she paused at the door.\n\n\"Thank you,\" she said, and he understood she meant more than the seat.",
+    "ttft_ms": 2885,
+    "ttft_stream_ms": 1966,
+    "time_to_request_ms": 284,
+    "type": "result",
+    "duration_ms": 17562,
+    "uuid": "58014821-b978-4924-ae2c-612cb382a35f"
+  }
+}

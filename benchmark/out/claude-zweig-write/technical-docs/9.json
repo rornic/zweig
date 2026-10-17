@@ -1,0 +1,122 @@
+{
+  "id": "load-balancer-algorithms",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-write",
+  "prompt": "Explain the difference between round-robin, least-connections, and consistent-hashing load balancing, and when each one is the wrong choice.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 8714,
+    "cache_read_input_tokens": 22478,
+    "output_tokens": 1425,
+    "total_tokens": 32619
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 20942,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "60b19934-ba2c-4c4e-a30c-b96075e9931d",
+    "total_cost_usd": 0.054621600000000006,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 8714,
+      "cache_read_input_tokens": 22478,
+      "output_tokens": 1425,
+      "output_tokens_details": {
+        "thinking_tokens": 533
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 8714,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1425,
+          "cache_read_input_tokens": 22478,
+          "cache_creation_input_tokens": 8714,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 8714
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 951,
+        "outputTokens": 13,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001016,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 1425,
+        "cacheReadInputTokens": 22478,
+        "cacheCreationInputTokens": 8714,
+        "webSearchRequests": 0,
+        "costUSD": 0.0536056,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "**Round-robin** cycles requests through backends in fixed order, blind to what each one is currently doing. It's cheap and trivially fair when every backend has the same capacity and every request costs roughly the same. It's the wrong choice the moment either assumption breaks: mix in a slow node (different hardware, a JVM still warming up, a noisy neighbor) or requests of wildly different cost (one triggers a report generation, the next a cache hit), and round-robin keeps feeding the struggling backend its equal share anyway. Queues build unevenly, latency percentiles blow out, and nothing in the algorithm notices.\n\n**Least-connections** routes each request to whichever backend currently holds the fewest open connections, which fixes the \"backend falling behind\" problem round-robin ignores \u2014 struggling nodes naturally accumulate connections and get skipped. It breaks down wherever connection count stops being a proxy for load. Long-lived idle connections (keep-alives, WebSockets, pooled DB clients) inflate a backend's count without adding work, so it gets starved of new traffic it could easily handle. Very short-lived requests move too fast for the counter to mean anything between decisions, collapsing the algorithm back to something like random choice. And heterogeneous request costs defeat it the same way they defeat round-robin: five cheap connections and five expensive ones look identical to a counter that only tracks quantity.\n\n**Consistent hashing** maps a request to a backend via a hash of some key \u2014 client IP, session ID, cache key \u2014 so the same key always lands on the same node, and adding or removing a node only remaps a small fraction of keys instead of reshuffling everything. That property is the entire point: it's for when you need affinity (session stickiness, cache locality, sharding) and want scaling events to be cheap. It's the wrong tool the instant load, not affinity, is the goal. If keys aren't uniformly popular \u2014 one tenant, one cache key, one session dominates traffic \u2014 that hot key pins disproportionate load onto a single node with no mechanism to redistribute it, since the whole design resists rebalancing. And if the service is stateless and doesn't need repeat requests to hit the same backend, consistent hashing adds a ring, virtual nodes, and rehashing logic to solve a problem you don't have, while giving up the even spread that round-robin or least-connections would provide for free.\n\nThe general pattern: round-robin assumes uniform backends and uniform requests; least-connections assumes connection count tracks actual load; consistent hashing assumes you need affinity and can tolerate uneven distribution to get it. Picking one without checking its assumption against your actual traffic shape is how you end up with a load balancer that's technically working and a fleet that isn't balanced at all.",
+    "ttft_ms": 9260,
+    "ttft_stream_ms": 1569,
+    "time_to_request_ms": 561,
+    "type": "result",
+    "duration_ms": 20637,
+    "uuid": "5700107a-da37-4f91-b067-faf262e46294"
+  }
+}

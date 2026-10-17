@@ -1,0 +1,122 @@
+{
+  "id": "dns-explainer",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-write",
+  "prompt": "Explain how DNS resolution works, from a browser typing a URL to getting an IP address back, for a junior engineer.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10616,
+    "cache_read_input_tokens": 53666,
+    "output_tokens": 941,
+    "total_tokens": 65227
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 14131,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "8ce6206b-91c2-47c0-b177-c7f91b69da41",
+    "total_cost_usd": 0.06361520000000001,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10616,
+      "cache_read_input_tokens": 53666,
+      "output_tokens": 941,
+      "output_tokens_details": {
+        "thinking_tokens": 79
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10616,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 804,
+          "cache_read_input_tokens": 31188,
+          "cache_creation_input_tokens": 1906,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1906
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 945,
+        "outputTokens": 11,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 941,
+        "cacheReadInputTokens": 53666,
+        "cacheCreationInputTokens": 10616,
+        "webSearchRequests": 0,
+        "costUSD": 0.06261520000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "When you type a URL and hit enter, the browser first checks its own DNS cache, then the OS cache, for a recent answer to \"what's the IP for this hostname.\" If neither has one, the OS hands the query to a resolver, usually one run by your ISP or a public one like 8.8.8.8 or 1.1.1.1.\n\nThat resolver does the real work. It doesn't know the answer either, so it starts at the top of the DNS hierarchy and works down.\n\nFirst it asks a root server, one of thirteen well-known addresses baked into every resolver. The root server doesn't know the IP for your domain, but it knows which server handles the top-level domain, `.com`, `.org`, whatever follows the last dot. It points the resolver there.\n\nNext the resolver asks that TLD server. The TLD server doesn't know the final IP either, but it knows which nameserver is authoritative for your specific domain, the one the domain's owner configured when they set up DNS (often through their registrar or a provider like Cloudflare or Route 53). It points the resolver there.\n\nFinally the resolver asks the authoritative nameserver, and this one actually has the answer: an A record (IPv4) or AAAA record (IPv6) mapping the hostname to an IP address. It returns that IP to the resolver, which returns it to your OS, which hands it to the browser.\n\nThree hops to find the answer (root, TLD, authoritative), then one more back to you. That's a full recursive lookup, and it only happens on a cache miss. Every DNS record has a TTL, a number of seconds it's allowed to sit in cache before it's considered stale. Short TTLs (like 60 seconds) mean you can update a record and have it propagate fast, at the cost of more lookups. Long TTLs (hours or days) mean fewer lookups but slower propagation if you change something. This is why after you update a DNS record, some people still hit the old IP for a while, their resolver is serving a cached answer that hasn't expired yet.\n\nOnce the browser has the IP, DNS's job is done. It opens a TCP connection to that address, negotiates TLS if it's HTTPS, and sends the actual HTTP request. DNS just answered \"where do I send this,\" it says nothing about what happens once you get there.\n\nOne practical note for debugging: `dig` or `nslookup` let you run this lookup manually and see exactly which server answered and with what TTL, which is usually the fastest way to tell whether a \"site is down\" problem is actually a DNS problem.",
+    "ttft_ms": 2150,
+    "ttft_stream_ms": 1063,
+    "time_to_request_ms": 161,
+    "type": "result",
+    "duration_ms": 13352,
+    "uuid": "91754b17-7689-4f7b-b478-20fc034754e3"
+  }
+}

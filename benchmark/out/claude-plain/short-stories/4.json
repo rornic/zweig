@@ -1,0 +1,122 @@
+{
+  "id": "gardener-drought",
+  "theme": "short-stories",
+  "condition": "claude-plain",
+  "prompt": "Write a short story about a gardener who keeps a garden alive through a drought, for reasons that become clear at the end.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3160,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 858,
+    "total_tokens": 22459
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 16954,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "54974a8c-edbd-4499-a765-e0e6dc0b9c22",
+    "total_cost_usd": 0.0259278,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3160,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 858,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3160,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 858,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3160,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3160
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 946,
+        "outputTokens": 14,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001016,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 858,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3160,
+        "webSearchRequests": 0,
+        "costUSD": 0.0249118,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The Last Row\n\nMira watered the beans first, then the tomatoes, then the roses that had no business surviving August. The county had been dry since May. Lawns had gone the color of toast. Her neighbor's tomatoes had shriveled to green fists on the vine, and still Mira hauled her five-gallon buckets from the rain barrel, then the cistern, then finally the tap when both ran dry, paying the water bill like a second rent.\n\n\"You could let it go,\" her neighbor Frank said over the fence one evening, watching her drag the hose across cracked earth. \"Nobody would blame you. It's just tomatoes.\"\n\n\"It's not just tomatoes,\" she said, and left it at that.\n\nShe kept a schedule taped inside the shed door: which beds got water on which days, how many minutes per row, a rotation worked out to the gallon so nothing wasted and nothing died. She weeded at dawn before the heat came up flat and merciless. She mulched everything twice as deep as the extension office recommended. At night she sat on the back step and listened to the cicadas and the dry wind moving through corn that had no right to still be standing.\n\nBy September the drought broke everyone else's garden. Frank's tomatoes were gone. The community plot two streets over had turned to dust and stakes. But Mira's rows stood green and stubborn, beans heavy, tomatoes cracking red under the relentless sun, the roses blooming like they hadn't gotten the memo about the world ending.\n\nHer daughter Elin came for the harvest, driving up from the city with her toddler strapped in the back seat. She stood at the edge of the garden, stunned.\n\n\"Mom. How is any of this alive?\"\n\nMira just handed her a basket and they picked together, the boy running between the rows shrieking at the size of the sunflowers.\n\nThat evening, after Elin had gone in to put her son to bed, Mira stayed outside a while longer, running her hand along the fence post where a small brass plate was screwed into the wood, worn nearly smooth. *In memory of David, who loved this ground.* Her husband had planted this garden the year before he died, had marked out every row himself, had said once, laughing, that a garden was just a promise you kept showing up for.\n\nShe hadn't let a single bed go fallow since. Not through his last winter, not through the flood two years back, not through this drought that had taken every other garden on the street. It wasn't about tomatoes, and it never had been. It was about keeping a promise alive in the only language he'd ever really spoken to her \u2014 dirt, water, and things that refused to stop growing.\n\nShe turned off the hose, coiled it by the shed, and went in to help wash the beans for supper.",
+    "ttft_ms": 15937,
+    "ttft_stream_ms": 1852,
+    "time_to_request_ms": 166,
+    "type": "result",
+    "duration_ms": 15985,
+    "uuid": "f55cc2dd-a1db-4eeb-98d7-3da734a7d2ef"
+  }
+}

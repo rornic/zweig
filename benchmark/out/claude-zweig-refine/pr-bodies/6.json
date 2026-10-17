@@ -1,0 +1,125 @@
+{
+  "id": "websocket-push",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a PR description for replacing REST polling with a websocket push for a live status dashboard, cutting load on the backend.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 38,
+    "cache_creation_input_tokens": 25217,
+    "cache_read_input_tokens": 765793,
+    "output_tokens": 7418,
+    "total_tokens": 798466
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 91078,
+    "num_turns": 20,
+    "stop_reason": "end_turn",
+    "session_id": "3d77be87-2ada-4d28-bf29-6dbec2c221a1",
+    "total_cost_usd": 0.34043389999999996,
+    "usage": {
+      "input_tokens": 38,
+      "cache_creation_input_tokens": 25217,
+      "cache_read_input_tokens": 765793,
+      "output_tokens": 7418,
+      "output_tokens_details": {
+        "thinking_tokens": 2253
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25217,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 439,
+          "cache_read_input_tokens": 47079,
+          "cache_creation_input_tokens": 636,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 636
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1274,
+        "outputTokens": 867,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4470,
+        "webSearchRequests": 0,
+        "costUSD": 0.0121513,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 38,
+        "outputTokens": 7418,
+        "cacheReadInputTokens": 765793,
+        "cacheCreationInputTokens": 25217,
+        "webSearchRequests": 0,
+        "costUSD": 0.3282826,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Summary\n\nThe dashboard currently polls `GET /api/status` every 2s per connected client. Status changes far less often than that, so most requests return nothing new, and volume scales with client count either way.\n\nThis replaces polling with a WebSocket push. The backend sends an update only when status actually changes, so request volume drops to near zero at idle and stops scaling with client count.\n\n## Changes\n\n- Add a WebSocket endpoint (`/ws/status`) that pushes updates on change, replacing the dashboard's polling loop.\n- The backend emits the push from the same code path that updates the status store, so there's one source of truth for \"status changed.\"\n- WebSocket failures or drops aren't a hard outage. The client falls back to REST polling.\n- Once the WS path is confirmed stable, remove the dashboard's default 2s polling loop. The REST fallback used on WebSocket failure stays.\n\n## Test plan\n\n- [ ] Confirm the dashboard receives a pushed update on the first status change, with no polling.\n- [ ] Kill the WS connection mid-session and confirm the client falls back to polling, then reconnects.\n- [ ] Under N concurrent dashboard clients, backend request volume should drop sharply versus the polling baseline.\n- [ ] Verify no missed updates during a rapid sequence of status changes (no coalescing bugs).",
+    "ttft_ms": 1728,
+    "ttft_stream_ms": 1085,
+    "time_to_request_ms": 130,
+    "type": "result",
+    "duration_ms": 90700,
+    "uuid": "aa9d6585-aabe-4313-8587-a8a4b2afbaac"
+  }
+}

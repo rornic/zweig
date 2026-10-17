@@ -1,0 +1,122 @@
+{
+  "id": "consistent-hashing",
+  "theme": "technical-docs",
+  "condition": "claude-plain",
+  "prompt": "Explain consistent hashing and why it's used for distributing keys across a cache cluster instead of simple modulo hashing.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 4942,
+    "cache_read_input_tokens": 16660,
+    "output_tokens": 1002,
+    "total_tokens": 22606
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 13873,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "a1551305-c2b0-496f-b7b9-9e2a461cacc6",
+    "total_cost_usd": 0.034145,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 4942,
+      "cache_read_input_tokens": 16660,
+      "output_tokens": 1002,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 4942,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1002,
+          "cache_read_input_tokens": 16660,
+          "cache_creation_input_tokens": 4942,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4942
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 946,
+        "outputTokens": 15,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001021,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 1002,
+        "cacheReadInputTokens": 16660,
+        "cacheCreationInputTokens": 4942,
+        "webSearchRequests": 0,
+        "costUSD": 0.033124,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Consistent hashing is a technique for mapping keys to nodes (e.g., cache servers) in a way that minimizes remapping when the set of nodes changes. It's the standard approach for distributing keys across a cache cluster, and it solves a specific failure mode of naive modulo hashing.\n\n**Simple modulo hashing:** With `N` cache servers, a key is assigned to `hash(key) % N`. This is simple and gives an even distribution, but it's brittle: if `N` changes \u2014 a node is added, removed, or crashes \u2014 the modulus changes, and `hash(key) % N` produces a different result for nearly every key. In practice, adding or removing even one server invalidates roughly `(N-1)/N` of all cached entries. For a large cluster, that's close to 100% of your cache being invalidated at once, causing a \"thundering herd\" of cache misses hitting the backend simultaneously.\n\n**Consistent hashing:** Instead of hashing keys directly onto a node count, both keys and nodes are hashed onto the same fixed circular space (a \"hash ring,\" typically 0 to 2^32-1). Each node occupies one or more points on the ring (often many \"virtual nodes\" per physical node, to smooth out distribution). To find which node owns a key, you hash the key and walk clockwise around the ring until you hit the first node.\n\nWhen a node is added or removed, it only affects the portion of the ring between it and its immediate neighbor. Keys elsewhere on the ring are unaffected. This means only about `K/N` keys need to move (where `K` is the total key count and `N` is the number of nodes) \u2014 proportional to the size of the change, not the size of the whole cluster.\n\n**Why this matters for caches specifically:**\n- **Scaling elasticity:** Cache clusters often grow/shrink to match load. Consistent hashing lets you do this without a mass cache-invalidation event.\n- **Failure tolerance:** A crashed node only disrupts its own slice of keys; the rest of the cluster keeps serving hits normally.\n- **Reduced backend load spikes:** Because remapping is localized, you avoid the correlated flood of cache misses (and resulting database/backend load) that modulo hashing causes on every topology change.\n\n**Practical refinements:**\n- **Virtual nodes:** Mapping each physical server to many points on the ring avoids uneven load when node counts are small or hashes cluster unevenly.\n- **Bounded load variants** (e.g., \"consistent hashing with bounded loads\") cap how much any one node can be overloaded relative to average.\n- **Alternatives:** Rendezvous hashing (highest random weight) achieves similar remapping-minimization properties without an explicit ring, and is used in some systems (e.g., some CDNs) as a simpler alternative.\n\nIn short: modulo hashing ties key placement to the exact node count, so any topology change reshuffles almost everything; consistent hashing decouples them, so changes only disturb the keys near the change \u2014 which is essential for caches that need to scale and tolerate failures without collapsing hit rates.",
+    "ttft_ms": 12885,
+    "ttft_stream_ms": 1734,
+    "time_to_request_ms": 328,
+    "type": "result",
+    "duration_ms": 12909,
+    "uuid": "6ba091eb-fc17-4c75-96b6-48dc3c592676"
+  }
+}

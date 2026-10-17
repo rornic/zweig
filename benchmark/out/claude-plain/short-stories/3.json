@@ -1,0 +1,122 @@
+{
+  "id": "train-stranger",
+  "theme": "short-stories",
+  "condition": "claude-plain",
+  "prompt": "Write a short story about two strangers who share a night train compartment during a blackout.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3148,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 865,
+    "total_tokens": 22454
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 16815,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "5c0a95ca-611e-4d79-87cd-3ccf12ea7a29",
+    "total_cost_usd": 0.025958799999999997,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3148,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 865,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3148,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 865,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3148,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3148
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 940,
+        "outputTokens": 17,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.0010249999999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 865,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3148,
+        "webSearchRequests": 0,
+        "costUSD": 0.0249338,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The lights failed somewhere north of Linz.\n\nElena felt the train shudder before the darkness dropped, and for a moment the compartment held its breath. Across from her, a man's voice said, \"Well,\" as if that settled something.\n\n\"That's it? Well?\"\n\n\"I find it's the correct response to most emergencies.\" A lighter flared, cupped in his palm, and she saw his face for the first time \u2014 unshaven, maybe fifty, amused in the way of someone who had missed worse trains. He lit a stub of candle he produced from his coat pocket like a magician finishing a trick.\n\n\"You carry candles.\"\n\n\"I carry a great many useless things. Occasionally one is useful.\" He set it in the little fold-down ashtray between the seats. \"Anton.\"\n\n\"Elena.\" She didn't offer a hand. The candlelight made the compartment smaller, warmer, a boat adrift from the rest of the train.\n\nOutside, nothing \u2014 no platform lights, no farmhouse windows, just the black shapes of pines sliding past slower now, as though the engineer too had lost his nerve.\n\n\"Where are you getting off?\" he asked.\n\n\"Nowhere good. A funeral.\" She hadn't meant to say it so plainly, but the dark made confessions cheaper. \"My aunt. I hadn't spoken to her in six years.\"\n\n\"Ah.\" He didn't offer sympathy, which she was grateful for. \"I'm going to see a woman I loved thirty years ago. She wrote to say she was dying and wanted to apologize for something I've long since forgotten the shape of.\"\n\n\"Will you forgive her?\"\n\n\"I forgave her decades ago. I'm going so she can watch me do it.\" He smiled at the candle, not at Elena. \"Selfish of me, maybe. But dying people should get their scenes.\"\n\nThe train rocked gently, still crawling. Somewhere down the corridor a child was crying and an intercom crackled uselessly, dead.\n\n\"Do you think they'll fix it soon?\" she asked.\n\n\"Does it matter? We're already going where we're going. The dark doesn't change the destination, only the view.\"\n\nShe found that she believed him, or wanted to, and pulled her coat tighter and watched the candle instead of the window. They talked after that about smaller things \u2014 bad coffee, a mutual dislike of window seats on airplanes, the strange intimacy of strangers who would never see each other again. When the lights finally stuttered back somewhere past the next unmarked station, both of them blinked like people waking from something, and Anton pinched out the candle with two wet fingers, the small ceremony of it over.\n\n\"Well,\" Elena said.\n\nHe laughed, and neither of them said anything else worth remembering, all the way to the border.",
+    "ttft_ms": 15914,
+    "ttft_stream_ms": 2450,
+    "time_to_request_ms": 237,
+    "type": "result",
+    "duration_ms": 15935,
+    "uuid": "e52dcf09-ed3e-44e7-a77e-0e8551862e6a"
+  }
+}

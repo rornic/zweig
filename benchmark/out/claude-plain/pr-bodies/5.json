@@ -1,0 +1,122 @@
+{
+  "id": "circuit-breaker",
+  "theme": "pr-bodies",
+  "condition": "claude-plain",
+  "prompt": "Write a PR description for adding a circuit breaker around a flaky downstream service client, so it fails fast instead of piling up timeouts under an outage.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3172,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 947,
+    "total_tokens": 22560
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 13317,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "33e6d0c3-af13-464e-b3c2-1676cf27f948",
+    "total_cost_usd": 0.026878799999999998,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3172,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 947,
+      "output_tokens_details": {
+        "thinking_tokens": 225
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3172,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 947,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3172,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3172
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 954,
+        "outputTokens": 15,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001029,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 947,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3172,
+        "webSearchRequests": 0,
+        "costUSD": 0.0258498,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Add circuit breaker to `PaymentsClient`\n\n### Problem\n`PaymentsClient` calls the downstream payments service with a fixed timeout and no protection against sustained failures. During the outage on 2026-08-15, every in-flight request queued until timeout (30s), exhausting the connection pool and thread capacity within minutes. This caused cascading latency across unrelated endpoints that share the same worker pool, turning a single downstream failure into a full outage on our side.\n\n### Change\nWraps `PaymentsClient` calls in a circuit breaker (using `resilience4j`) with the following behavior:\n- **Closed**: requests pass through normally.\n- **Open**: after 50% of the last 20 requests fail, the breaker opens and requests fail immediately with `PaymentsUnavailableException` instead of waiting on the network.\n- **Half-open**: after a 30s cooldown, a limited number of trial requests are allowed through to probe recovery.\n\nFailure fast-paths are logged and emit a `payments.circuit_breaker.state` metric so we can alert on state transitions instead of only on latency/error spikes.\n\n### Why this approach\n- Fail-fast preserves capacity for unrelated requests instead of piling up blocked threads/connections.\n- Thresholds (50% failure rate, window of 20, 30s cooldown) mirror what we use for the `InventoryClient` breaker, so behavior is consistent across clients.\n- Kept the existing per-request timeout unchanged \u2014 the breaker sits around it rather than replacing it, so this is additive and low-risk to roll back (config-flagged via `payments.circuitBreaker.enabled`, defaults to `true`).\n\n### Testing\n- Unit tests covering closed \u2192 open \u2192 half-open \u2192 closed transitions.\n- Load test replaying the 08-15 timeout pattern against a stubbed slow endpoint; confirms breaker opens within ~10s and unrelated requests are unaffected.\n- Manually verified fallback error surfaces correctly to callers and doesn't retry indefinitely.\n\n### Rollout\nDeploying with breaker enabled but thresholds set conservatively; will tighten after a week of production metrics.",
+    "ttft_ms": 3851,
+    "ttft_stream_ms": 1057,
+    "time_to_request_ms": 208,
+    "type": "result",
+    "duration_ms": 12653,
+    "uuid": "fd1d2bc0-8f7f-4cfa-bd4c-4a21f99ef632"
+  }
+}

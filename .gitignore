@@ -1,2 +1,4 @@
 .DS_Store
 .claude/
+benchmark/out/stefan-zweig
+__pycache__

@@ -1,0 +1,122 @@
+{
+  "id": "idempotency-keys",
+  "theme": "pr-bodies",
+  "condition": "claude-plain",
+  "prompt": "Write a PR description for adding idempotency keys to a payment processing endpoint, to prevent duplicate charges on client retries.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3165,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 704,
+    "total_tokens": 22310
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 10518,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "69de194d-27b4-4faa-a494-f758441d8975",
+    "total_cost_usd": 0.024422799999999998,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3165,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 704,
+      "output_tokens_details": {
+        "thinking_tokens": 27
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3165,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 704,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3165,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3165
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 946,
+        "outputTokens": 17,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001031,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 704,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3165,
+        "webSearchRequests": 0,
+        "costUSD": 0.023391799999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Add idempotency keys to payment processing endpoint\n\n### Problem\n\nThe payment endpoint currently has no protection against duplicate submissions. When a client retries a request after a timeout, dropped connection, or ambiguous response (e.g., the charge succeeded but the response never reached the client), we have no way to distinguish a retry from a new payment intent. This can result in customers being charged multiple times for a single purchase.\n\n### Solution\n\nThis PR adds support for client-supplied idempotency keys on the payment processing endpoint.\n\n- Clients must pass an `Idempotency-Key` header (UUID) with each payment request.\n- On receipt, we check for an existing record matching the key:\n  - If none exists, we process the payment normally and store the key alongside the response and a hash of the request payload.\n  - If a matching key exists and the request payload hash matches, we return the stored response without reprocessing the charge.\n  - If a matching key exists but the payload differs, we reject the request (422) to avoid silently applying a different operation under a reused key.\n- Keys are scoped per merchant/account to avoid cross-tenant collisions.\n- Stored keys expire after 24 hours, after which the same key can be reused (matches our retry window and keeps storage bounded).\n- In-flight requests with the same key (concurrent retries) are handled by locking on the key, so a second request waits for the first to complete rather than racing it.\n\n### Storage\n\nIdempotency records are stored in a new `idempotency_keys` table (key, account_id, request_hash, response body/status, created_at), with a TTL index for expiry.\n\n### Testing\n\n- Unit tests for new-key, matching-retry, conflicting-payload, and expired-key paths.\n- Concurrency test simulating two simultaneous requests with the same key to confirm only one charge is created.\n- Existing payment endpoint tests updated to include the new required header.\n\n### Rollout\n\nThe header is required going forward; clients not yet updated will need a follow-up SDK/docs change. Open to gating this behind a feature flag if we want a soft rollout \u2014 flagging for discussion.",
+    "ttft_ms": 1696,
+    "ttft_stream_ms": 1086,
+    "time_to_request_ms": 154,
+    "type": "result",
+    "duration_ms": 9671,
+    "uuid": "6038bffa-f3f7-48b7-b739-7ea6be6a7f55"
+  }
+}

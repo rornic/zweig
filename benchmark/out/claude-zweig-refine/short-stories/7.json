@@ -1,0 +1,125 @@
+{
+  "id": "radio-repairman",
+  "theme": "short-stories",
+  "condition": "claude-zweig-refine",
+  "prompt": "Write a short story about an old radio repairman who starts picking up a signal that shouldn't exist.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 28,
+    "cache_creation_input_tokens": 26138,
+    "cache_read_input_tokens": 550732,
+    "output_tokens": 8471,
+    "total_tokens": 585369
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 116232,
+    "num_turns": 15,
+    "stop_reason": "end_turn",
+    "session_id": "25a9e657-5e6d-4b18-aea7-0acb517ae793",
+    "total_cost_usd": 0.3125237,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 26138,
+      "cache_read_input_tokens": 550732,
+      "output_tokens": 8471,
+      "output_tokens_details": {
+        "thinking_tokens": 4167
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26138,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 758,
+          "cache_read_input_tokens": 46887,
+          "cache_creation_input_tokens": 1749,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1749
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1522,
+        "outputTokens": 936,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4722,
+        "webSearchRequests": 0,
+        "costUSD": 0.0130593,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 28,
+        "outputTokens": 8471,
+        "cacheReadInputTokens": 550732,
+        "cacheCreationInputTokens": 26138,
+        "webSearchRequests": 0,
+        "costUSD": 0.2994644,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "Elias Roth had fixed radios since before most of his customers were born. Tube sets, transistor bricks, the occasional tape deck someone's grandmother refused to throw out. He kept a workbench in the back of the shop, a Hallicrafters shortwave from 1962 wired to a dipole strung across the roof, running whenever the shop was open. Background noise. Company.\n\nThe signal came in on a Tuesday, buried in the static between two commercial bands. A pulse, then a pause, then the pulse again, at a frequency the allocation charts said belonged to nobody. He logged it out of habit, the way he logged every anomaly, and went back to a Zenith with a cracked speaker cone.\n\nIt came back the next day. Same frequency, same cadence, but with something threaded through it now, a warble that resolved, if he leaned close and let his ear stop fighting it, into a voice. Not words. The shape words leave behind.\n\nHe called an old contact at the university, a physicist who'd once traded him lab equipment repairs for beer. Sent her the recording. She called back within the hour, and her voice had lost its usual patience.\n\n\"That frequency's allocated to a satellite that deorbited in 2009,\" she said. \"There is nothing up there transmitting on it. There's nothing up there at all.\"\n\n\"Then what am I hearing?\"\n\n\"I don't know. But whatever it is, it's using a broadcast standard from before either of us was born, and it's using it correctly. That's not noise. That's not a fluke in your equipment. Someone built that signal to be heard.\"\n\nSleep stopped coming easily after that. He sat at the bench each night with the volume low, notebook open, and listened to the pulse resolve a little further each time, the warble sharpening toward something like syllables, until he recognized the pattern, three pulses and a rest, patient as tide. Whatever it was on the other end wasn't crying for help. It was practicing.\n\nThe physicist told him to report it. Someone should decommission the equipment, she said, or explain it, or study it. He wrote out the frequency, the timestamps, every reading, folded the pages into an envelope, and addressed it to her.\n\nThen he left it on the desk, unsent, and went back to the workbench, because whatever was speaking down that dead channel had been alone longer than he had, and he wasn't ready to be the one who stopped answering.",
+    "ttft_ms": 2746,
+    "ttft_stream_ms": 1723,
+    "time_to_request_ms": 156,
+    "type": "result",
+    "duration_ms": 114721,
+    "uuid": "3cc8c1f4-65e7-41f7-b30d-f62b6cb80f59"
+  }
+}

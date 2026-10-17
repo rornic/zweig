@@ -1,0 +1,125 @@
+{
+  "id": "oauth2-auth-code-flow",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-refine",
+  "prompt": "Explain the OAuth 2.0 authorization code flow, including why the code is exchanged for a token server-side instead of returning the token directly.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "source_condition": "claude-zweig-write",
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 38,
+    "cache_creation_input_tokens": 29571,
+    "cache_read_input_tokens": 804095,
+    "output_tokens": 11279,
+    "total_tokens": 844983
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 134859,
+    "num_turns": 20,
+    "stop_reason": "end_turn",
+    "session_id": "10a16775-70ef-4faf-95ef-931042ef6a50",
+    "total_cost_usd": 0.4071780500000001,
+    "usage": {
+      "input_tokens": 38,
+      "cache_creation_input_tokens": 29571,
+      "cache_read_input_tokens": 804095,
+      "output_tokens": 11279,
+      "output_tokens_details": {
+        "thinking_tokens": 4907
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29571,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 701,
+          "cache_read_input_tokens": 50968,
+          "cache_creation_input_tokens": 1101,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1101
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1523,
+        "outputTokens": 1370,
+        "cacheReadInputTokens": 9548,
+        "cacheCreationInputTokens": 4705,
+        "webSearchRequests": 0,
+        "costUSD": 0.01520905,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 38,
+        "outputTokens": 11279,
+        "cacheReadInputTokens": 804095,
+        "cacheCreationInputTokens": 29571,
+        "webSearchRequests": 0,
+        "costUSD": 0.3919690000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 1,
+      "requested": {
+        "background": 0,
+        "foreground": 1,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 1,
+      "spawned_by_subagents": 0,
+      "completed": 1,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {
+        "general-purpose": 1
+      }
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The authorization code flow lets a client application (a web app, typically) obtain an access token to call an API on a user's behalf, without ever handling the user's credentials.\n\n**The steps**\n\n1. The client redirects the user's browser to the authorization server's `/authorize` endpoint, with a `client_id`, `redirect_uri`, requested `scope`, and a `state` value (a random string the client will check later to prevent CSRF).\n2. The user authenticates at the authorization server and approves the requested scopes.\n3. The authorization server redirects back to the client's `redirect_uri` with a short-lived, single-use authorization code and the original `state`.\n4. The client's backend sends that code, its `client_id`, and its `client_secret` directly to the authorization server's `/token` endpoint, a server-to-server call rather than a browser redirect.\n5. The authorization server validates the code and credentials, then returns an access token (and usually a refresh token) in the response body.\n\n**Why the code, not the token, comes back through the browser**\n\nThe redirect in step 3 travels through the user's browser, landing in the URL bar, browser history, referrer headers, and server logs along the way, exposed to browser extensions and network intermediaries as well as the user.\n\nAn authorization code is deliberately cheap to leak. It's single-use, expires in seconds to minutes, and is worthless without the client secret, which lives only on the backend.\n\nNone of that applies to an access token, the actual credential for calling the API, often valid for an hour or more. Returned directly through the browser redirect, as the older implicit flow did, it would sit in browser history, replayable by anyone who intercepted it with no further check required.\n\nSplitting the exchange this way, public code over the browser, secret-gated swap on the backend, also lets the authorization server verify the client's identity (via `client_secret`, or a PKCE (Proof Key for Code Exchange) `code_verifier` for public clients that can't hold a secret) before issuing the real credential. That verification step is exactly what's missing when the token comes back directly, which is why the implicit flow is now deprecated in favor of authorization code plus PKCE, even for browser-based and mobile clients.",
+    "ttft_ms": 1658,
+    "ttft_stream_ms": 1090,
+    "time_to_request_ms": 166,
+    "type": "result",
+    "duration_ms": 133812,
+    "uuid": "c7b6cb46-c1ee-46b3-be5f-94fd0a23f45f"
+  }
+}

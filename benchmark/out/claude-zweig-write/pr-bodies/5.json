@@ -1,0 +1,122 @@
+{
+  "id": "circuit-breaker",
+  "theme": "pr-bodies",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a PR description for adding a circuit breaker around a flaky downstream service client, so it fails fast instead of piling up timeouts under an outage.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 10568,
+    "cache_read_input_tokens": 53676,
+    "output_tokens": 469,
+    "total_tokens": 64717
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 9513,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "ffd7a550-a190-4cb7-acb7-46de7d33562e",
+    "total_cost_usd": 0.05873420000000001,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 10568,
+      "cache_read_input_tokens": 53676,
+      "output_tokens": 469,
+      "output_tokens_details": {
+        "thinking_tokens": 21
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10568,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 391,
+          "cache_read_input_tokens": 31198,
+          "cache_creation_input_tokens": 1848,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1848
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 954,
+        "outputTokens": 15,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001029,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 469,
+        "cacheReadInputTokens": 53676,
+        "cacheCreationInputTokens": 10568,
+        "webSearchRequests": 0,
+        "costUSD": 0.057705200000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## fix: add circuit breaker to downstream service client\n\nWraps the downstream service client in a circuit breaker so repeated failures trip it open, instead of every caller queuing up behind a slow timeout during an outage.\n\n### Changes\n\n- Add circuit breaker around the client's request path, tuned to trip after a run of consecutive failures within a rolling window.\n- Fail fast with a dedicated error when the breaker is open, so callers can distinguish \"downstream is down\" from a normal request failure.\n- Half-open probing after a cooldown period, so the breaker recovers automatically once the downstream service is healthy again, without a manual reset.\n- Add metrics/logging on state transitions (closed \u2192 open \u2192 half-open) for visibility during incidents.\n\nPreviously, an outage meant every in-flight request waited out its full timeout before failing, and retries piled more load onto an already-struggling downstream service. Requests now fail in milliseconds once the breaker trips, and load stays off the downstream service until it's back.\n\n### Testing\n\nUnit tests cover the trip threshold, the open-state fast-fail path, and the half-open recovery transition. Manually verified against a stubbed downstream client that simulates timeouts.",
+    "ttft_ms": 2283,
+    "ttft_stream_ms": 1390,
+    "time_to_request_ms": 102,
+    "type": "result",
+    "duration_ms": 8698,
+    "uuid": "d784f12e-f718-470b-833a-9819b5e6d07b"
+  }
+}

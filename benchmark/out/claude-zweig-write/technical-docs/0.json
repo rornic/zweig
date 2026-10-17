@@ -1,0 +1,122 @@
+{
+  "id": "k8s-runbook",
+  "theme": "technical-docs",
+  "condition": "claude-zweig-write",
+  "prompt": "Write a runbook for diagnosing and resolving a Kubernetes pod stuck in CrashLoopBackOff.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 16367,
+    "cache_read_input_tokens": 47859,
+    "output_tokens": 1414,
+    "total_tokens": 65644
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 19233,
+    "num_turns": 3,
+    "stop_reason": "end_turn",
+    "session_id": "1db02de7-e3d3-4ec6-a136-9585d64aa9ee",
+    "total_cost_usd": 0.0902388,
+    "usage": {
+      "input_tokens": 4,
+      "cache_creation_input_tokens": 16367,
+      "cache_read_input_tokens": 47859,
+      "output_tokens": 1414,
+      "output_tokens_details": {
+        "thinking_tokens": 19
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16367,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1338,
+          "cache_read_input_tokens": 31190,
+          "cache_creation_input_tokens": 1846,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1846
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 946,
+        "outputTokens": 21,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001051,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 4,
+        "outputTokens": 1414,
+        "cacheReadInputTokens": 47859,
+        "cacheCreationInputTokens": 16367,
+        "webSearchRequests": 0,
+        "costUSD": 0.0891878,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "# Runbook: Pod Stuck in CrashLoopBackOff\n\n## 1. Confirm the state\n\n```\nkubectl get pod <pod> -n <namespace>\n```\n\nCheck `RESTARTS` and `AGE`. A high restart count with short age confirms a crash loop, not a slow start.\n\n## 2. Read the exit code and last state\n\n```\nkubectl describe pod <pod> -n <namespace>\n```\n\nLook at `Last State > Terminated`:\n\n- **Exit Code 0**: the container's main process exited cleanly. The image's entrypoint likely isn't a long-running process, or a script finishes and returns.\n- **Exit Code 1**: generic application error. Check logs.\n- **Exit Code 137**: SIGKILL, usually an OOM kill. Confirm with `Reason: OOMKilled` in the same output. Fix by raising `resources.limits.memory` or fixing a leak.\n- **Exit Code 143**: SIGTERM, often the app not handling graceful shutdown before Kubernetes escalates to SIGKILL.\n- **Exit Code 139**: segfault, points at the binary or a native dependency.\n\nAlso check `Events` at the bottom of `describe` output for `Liveness probe failed`, `Readiness probe failed`, `FailedMount`, or `Back-off restarting failed container`.\n\n## 3. Check logs\n\n```\nkubectl logs <pod> -n <namespace> --previous\n```\n\n`--previous` is essential: the current container instance may not have logged anything yet, but the one that just crashed did. If logs are empty even with `--previous`, the crash happens before the app writes anything, i.e. missing config, a bad entrypoint, or a missing binary in the image.\n\n## 4. Check config and secrets\n\n```\nkubectl get pod <pod> -n <namespace> -o yaml\n```\n\nVerify every `envFrom` / `env.valueFrom` reference resolves, that mounted `ConfigMap`s and `Secret`s exist in the same namespace, and that file paths in `volumeMounts` match what the app expects. A missing referenced Secret shows as `CreateContainerConfigError` in pod status rather than a crash loop, so rule that out first.\n\n## 5. Check liveness/readiness probes\n\nA misconfigured liveness probe (too short `initialDelaySeconds`, wrong path or port) kills a healthy container before it finishes starting up. Compare the probe's `periodSeconds` / `failureThreshold` against the app's actual startup time. Temporarily removing the probe (in a test environment) isolates whether the probe or the app itself is the cause.\n\n## 6. Reproduce locally\n\n```\ndocker run --rm -it <image> <command from the pod spec>\n```\n\nRuns the exact image and entrypoint outside Kubernetes. This isolates image and application bugs from cluster-specific issues like config, secrets, or probes.\n\n## 7. Check resource limits\n\n```\nkubectl top pod <pod> -n <namespace>\n```\n\nIf usage sits near or over `resources.limits.memory`, treat it as OOM even without an explicit `137` (the kubelet can evict before the container fully reports its exit code).\n\n## Common root causes, ranked by frequency\n\n1. Application error from bad config or a missing environment variable.\n2. OOMKilled from limits set too low.\n3. Liveness probe misconfigured, killing a still-starting app.\n3. Missing dependency (database, downstream service) the app requires at startup and doesn't retry.\n5. Wrong command or entrypoint in the pod spec, exiting immediately.\n\n## Resolution checklist\n\n- Fix the root cause identified above (code, config, resource limits, or probe settings).\n- Redeploy: `kubectl rollout restart deployment/<name> -n <namespace>`.\n- Watch recovery: `kubectl get pod <pod> -n <namespace> -w`.\n- If restarts continue, delete the pod to force a clean respawn and re-check logs from the new instance: `kubectl delete pod <pod> -n <namespace>`.",
+    "ttft_ms": 1770,
+    "ttft_stream_ms": 1205,
+    "time_to_request_ms": 130,
+    "type": "result",
+    "duration_ms": 18144,
+    "uuid": "b6459904-e423-469a-af60-de8ded669458"
+  }
+}

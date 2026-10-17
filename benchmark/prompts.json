@@ -1,0 +1,182 @@
+[
+  {
+    "id": "k8s-runbook",
+    "theme": "technical-docs",
+    "prompt": "Write a runbook for diagnosing and resolving a Kubernetes pod stuck in CrashLoopBackOff.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "dns-explainer",
+    "theme": "technical-docs",
+    "prompt": "Explain how DNS resolution works, from a browser typing a URL to getting an IP address back, for a junior engineer.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "tls-handshake",
+    "theme": "technical-docs",
+    "prompt": "Explain the TLS 1.3 handshake process and what changed from TLS 1.2.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "git-rebase-vs-merge",
+    "theme": "technical-docs",
+    "prompt": "Write a short internal doc explaining when to use git rebase vs git merge, for a team that keeps getting confused about it.",
+    "target_words": [300, 450]
+  },
+  {
+    "id": "db-index-explainer",
+    "theme": "technical-docs",
+    "prompt": "Explain how B-tree database indexes work and when adding an index can make queries slower, not faster.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "consistent-hashing",
+    "theme": "technical-docs",
+    "prompt": "Explain consistent hashing and why it's used for distributing keys across a cache cluster instead of simple modulo hashing.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "cap-theorem",
+    "theme": "technical-docs",
+    "prompt": "Explain the CAP theorem and what it actually constrains a distributed database to choose between during a network partition.",
+    "target_words": [300, 450]
+  },
+  {
+    "id": "oauth2-auth-code-flow",
+    "theme": "technical-docs",
+    "prompt": "Explain the OAuth 2.0 authorization code flow, including why the code is exchanged for a token server-side instead of returning the token directly.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "postgres-vacuum",
+    "theme": "technical-docs",
+    "prompt": "Explain what Postgres's autovacuum does, why table bloat happens without it, and how to tell if a table needs a manual VACUUM.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "load-balancer-algorithms",
+    "theme": "technical-docs",
+    "prompt": "Explain the difference between round-robin, least-connections, and consistent-hashing load balancing, and when each one is the wrong choice.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "lighthouse-keeper",
+    "theme": "short-stories",
+    "prompt": "Write a short story about a lighthouse keeper who receives a radio message from a ship that sank decades ago.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "last-library",
+    "theme": "short-stories",
+    "prompt": "Write a short story about the last librarian in a city after everyone else has left.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "clockmaker",
+    "theme": "short-stories",
+    "prompt": "Write a short story about a clockmaker who discovers one of his clocks is running backwards, and why.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "train-stranger",
+    "theme": "short-stories",
+    "prompt": "Write a short story about two strangers who share a night train compartment during a blackout.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "gardener-drought",
+    "theme": "short-stories",
+    "prompt": "Write a short story about a gardener who keeps a garden alive through a drought, for reasons that become clear at the end.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "locksmith",
+    "theme": "short-stories",
+    "prompt": "Write a short story about a locksmith who can open any lock except the one on his own front door, and why.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "mission-control-twin",
+    "theme": "short-stories",
+    "prompt": "Write a short story about a woman working mission control for the space mission her twin sister is on.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "radio-repairman",
+    "theme": "short-stories",
+    "prompt": "Write a short story about an old radio repairman who starts picking up a signal that shouldn't exist.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "cartographer",
+    "theme": "short-stories",
+    "prompt": "Write a short story about a cartographer assigned to map a town whose streets keep changing overnight.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "losing-chess-player",
+    "theme": "short-stories",
+    "prompt": "Write a short story about a chess player who has always deliberately lost, until one day he doesn't.",
+    "target_words": [350, 500]
+  },
+  {
+    "id": "rate-limiter",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for a change that adds a token-bucket rate limiter to an internal API gateway, replacing a fixed-window limiter that was causing bursty 429s.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "flaky-test-fix",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for a fix to a flaky integration test that was failing due to a race condition between two async setup calls.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "db-migration-pr",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for a database migration that adds a NOT NULL column with a backfill to a 50-million-row table.",
+    "target_words": [250, 400]
+  },
+  {
+    "id": "cache-invalidation",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for a change that fixes a cache invalidation bug where stale user profile data was served for up to 10 minutes after an update.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "dependency-bump",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for bumping a major version of a logging library, including one breaking config change that had to be migrated.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "circuit-breaker",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for adding a circuit breaker around a flaky downstream service client, so it fails fast instead of piling up timeouts under an outage.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "websocket-push",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for replacing REST polling with a websocket push for a live status dashboard, cutting load on the backend.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "n-plus-one-fix",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for fixing an N+1 query in an API endpoint that only showed up under production load.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "idempotency-keys",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for adding idempotency keys to a payment processing endpoint, to prevent duplicate charges on client retries.",
+    "target_words": [200, 350]
+  },
+  {
+    "id": "queue-based-jobs",
+    "theme": "pr-bodies",
+    "prompt": "Write a PR description for migrating a monolith's background jobs from an in-process scheduler to a queue-based worker.",
+    "target_words": [250, 400]
+  }
+]

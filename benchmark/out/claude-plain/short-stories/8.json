@@ -1,0 +1,122 @@
+{
+  "id": "cartographer",
+  "theme": "short-stories",
+  "condition": "claude-plain",
+  "prompt": "Write a short story about a cartographer assigned to map a town whose streets keep changing overnight.\n\nAim for 350\u2013500 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    350,
+    500
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3154,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 814,
+    "total_tokens": 22409
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 15841,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "248a64ea-3fd5-4a60-9408-d93617638c78",
+    "total_cost_usd": 0.0254568,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3154,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 814,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3154,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 814,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3154,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3154
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 939,
+        "outputTokens": 14,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001009,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 814,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3154,
+        "webSearchRequests": 0,
+        "costUSD": 0.024447800000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "The Unfixed Streets\n\nMerren had mapped forty towns before she came to Adderlow, and none of them had tried to hide.\n\nShe arrived with brass instruments and a theodolite that had belonged to her mother, set up in the square by the fountain, and spent the first day doing what cartographers do: walking, measuring, noting. Baker's Row ran north from the square, crooked at the elbow where the old tannery had burned. Fine. She drew it.\n\nBy morning it was gone. In its place ran a lane she hadn't seen before, narrower, cobbled instead of packed dirt, ending in a chandler's shop that the townsfolk swore had stood there for thirty years.\n\n\"It has,\" said the innkeeper, when she asked. \"It always has.\"\n\nShe didn't argue. She started again.\n\nFor a week she tried to catch the town changing \u2014 sat up with a lantern at the mouth of Coopers Lane, certain that if she watched hard enough she'd see the stones lift and resettle. Nothing. She only ever found the change already finished, the way you find a wound already closed. Streets didn't move so much as reconsider themselves, and only when no one was looking, herself included.\n\nSo she stopped trying to fix the town in place and started mapping the changing instead.\n\nShe kept one master sheet and a hundred transparencies, layered like the pages of an anatomy book, each showing Adderlow as it had been on a given morning. She stopped labeling streets by name \u2014 names lied, since the town kept them even as the streets beneath shifted \u2014 and began labeling them by behavior. This lane always bent toward water. That one always avoided the church, no matter how the church itself wandered. A cul-de-sac two doors from the bakery appeared on rainy mornings only.\n\nIt was slow work, and lonelier than any commission she'd taken, because a finished map is a small triumph you can hand to someone, and this map would never be finished. But she found she didn't mind. There was a pleasure in it distinct from completion \u2014 the pleasure of describing a thing accurately in its own terms instead of forcing it into hers.\n\nThree months in, the town elder asked when the map would be done.\n\n\"It won't be,\" Merren said. \"But I can give you something better than done. I can give you the pattern underneath the changes. Where the streets go when they're not where you think.\"\n\nHe considered this a long time, the way people in Adderlow considered most things, as if waiting to see whether the ground under the question would shift too.\n\n\"That's not a map,\" he said finally. \"That's a kind of trust.\"\n\n\"Yes,\" she said, and kept drawing.",
+    "ttft_ms": 15095,
+    "ttft_stream_ms": 1091,
+    "time_to_request_ms": 234,
+    "type": "result",
+    "duration_ms": 15118,
+    "uuid": "e355d596-1fa9-4ceb-be5a-8e9c1f10839c"
+  }
+}

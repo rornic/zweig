@@ -1,0 +1,122 @@
+{
+  "id": "rate-limiter",
+  "theme": "pr-bodies",
+  "condition": "claude-plain",
+  "prompt": "Write a PR description for a change that adds a token-bucket rate limiter to an internal API gateway, replacing a fixed-window limiter that was causing bursty 429s.\n\nAim for 200\u2013350 words. Be concise, but do not omit information needed to fulfil the request.",
+  "target_words": [
+    200,
+    350
+  ],
+  "meta_commentary_stripped": false,
+  "token_usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3179,
+    "cache_read_input_tokens": 18439,
+    "output_tokens": 770,
+    "total_tokens": 22390
+  },
+  "response": {
+    "is_error": false,
+    "duration_api_ms": 11398,
+    "num_turns": 1,
+    "stop_reason": "end_turn",
+    "session_id": "75ba229e-d884-438c-871f-2c8f806be61d",
+    "total_cost_usd": 0.0251518,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3179,
+      "cache_read_input_tokens": 18439,
+      "output_tokens": 770,
+      "output_tokens_details": {
+        "thinking_tokens": 29
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3179,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 770,
+          "cache_read_input_tokens": 18439,
+          "cache_creation_input_tokens": 3179,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3179
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 959,
+        "outputTokens": 17,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.001044,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty"
+      },
+      "claude-sonnet-5": {
+        "inputTokens": 2,
+        "outputTokens": 770,
+        "cacheReadInputTokens": 18439,
+        "cacheCreationInputTokens": 3179,
+        "webSearchRequests": 0,
+        "costUSD": 0.0241078,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty"
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+      "spawned": 0,
+      "requested": {
+        "background": 0,
+        "foreground": 0,
+        "unset": 0
+      },
+      "started_in_background": 0,
+      "max_depth": 0,
+      "spawned_by_subagents": 0,
+      "completed": 0,
+      "failed": 0,
+      "killed": {
+        "parent": 0,
+        "user": 0,
+        "system": 0
+      },
+      "refused": {
+        "depth_limit": 0,
+        "concurrency_limit": 0,
+        "budget": 0
+      },
+      "by_type": {}
+    },
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "## Replace fixed-window rate limiter with token-bucket in API gateway\n\n### Summary\n\nThe gateway's fixed-window rate limiter resets its counter at fixed interval boundaries (e.g., every 60s), which allows clients to burst up to 2x their limit by sending requests at the tail of one window and the head of the next. Under load, this produced spiky, bursty `429` responses instead of a smooth throttling curve \u2014 clients would sail through for most of a window, then get slammed near the boundary.\n\nThis PR replaces the fixed-window limiter with a token-bucket implementation, which smooths request admission over time while still permitting short bursts up to the configured bucket size.\n\n### Changes\n\n- New `TokenBucketLimiter` implementing the existing `RateLimiter` interface, backed by a per-client bucket with configurable `capacity` and `refillRate` (tokens/sec).\n- Bucket state stored in Redis with an atomic Lua script for check-and-decrement to avoid race conditions under concurrent requests to the same client key.\n- Removed `FixedWindowLimiter` and its associated window-reset scheduler.\n- Config: `rateLimit.window` / `rateLimit.maxRequests` replaced with `rateLimit.capacity` / `rateLimit.refillRate`; migration mapping added to config loader so existing deployments don't need a manual config rewrite (old keys log a deprecation warning and are converted).\n- `Retry-After` header now computed from time-to-next-token rather than time-to-window-reset, giving clients more accurate backoff guidance.\n\n### Testing\n\n- Unit tests covering burst absorption, steady-state throttling, and concurrent-request race conditions on the Lua script.\n- Load-tested against staging gateway at 3x normal traffic; confirmed 429 rate dropped from ~18% (bursty spikes) to ~4% (smooth, at configured limit) with no increase in overall rejected-request count.\n- Verified config migration path against a copy of prod config.\n\n### Rollout\n\nDeploying behind the existing `rate-limiter-v2` feature flag, default off. Plan to enable for one low-traffic internal service first, monitor `429` and latency dashboards for 24h, then roll out broadly.",
+    "ttft_ms": 1811,
+    "ttft_stream_ms": 1241,
+    "time_to_request_ms": 232,
+    "type": "result",
+    "duration_ms": 10674,
+    "uuid": "91e3670e-4277-45a4-803a-850cc5f2947f"
+  }
+}
