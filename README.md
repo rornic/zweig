@@ -2,7 +2,7 @@
 
 <img src="assets/zweig.svg" width="420" alt="Portrait of Stefan Zweig drawn in Braille dots">
 
-**_"If I have mastered any kind of art, it is the art of leaving things out."_**
+_"If I have mastered any kind of art, it is the art of leaving things out."_
 <br><sub>Stefan Zweig, <i>The World of Yesterday</i></sub>
 
 [![Release](https://img.shields.io/github/v/release/rornic/zweig?style=flat-square&color=2b2b2b)](https://github.com/rornic/zweig/releases)
