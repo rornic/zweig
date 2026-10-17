@@ -20,6 +20,7 @@ Warnings, gotchas, failure modes, exact flags, commands, paths, versions, error 
 - Hedge words that carry no information ("approximately", "generally", "as needed", "or so").
 - The same point twice in different phrasing for emphasis.
 - Boilerplate transitions ("Additionally,", "Furthermore,", "It should also be noted that").
+- Decorative emoji in headings, bullets, or sign-offs. Keep one only when it carries meaning the words don't, like a pass/fail column in a status table.
 
 One idea per sentence. Prefer fewer, denser points over broad coverage.
 
