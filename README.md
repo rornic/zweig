@@ -20,17 +20,86 @@ Two writing skills for Claude Code and Codex, built on Stefan Zweig's drafting p
 
 ## Before and after
 
-A real run of `zweig-refine`, from [`EXAMPLE.md`](skills/zweig-refine/EXAMPLE.md).
+One prompt, three runs: *"Write a PR description for a change that adds a token-bucket rate limiter to an internal API gateway, replacing a fixed-window limiter that was causing bursty 429s."*
 
-**Before** (105 words)
+<details>
+<summary><b>Plain Claude</b> (303 words)</summary>
 
-> We wanted to let you know that, in terms of the deployment process, the new deployment process now requires that you first run the build step before you can proceed to run the actual deploy step, which is a change from how it used to work before this change was made. Additionally, it should also be noted that the build step, which is a new step, will take approximately five minutes or so to complete on average, and during this time you should just wait for it to finish before doing anything else, since trying to deploy before the build step has finished will simply result in an error message being shown to you.
+```markdown
+## Replace fixed-window rate limiter with token-bucket in API gateway
 
-**After** (25 words)
+### Summary
 
-> Deployment now requires a build step (~5 min) before the deploy step. The deploy step is blocked with an error until the build finishes.
+The gateway's fixed-window rate limiter resets its counter at fixed interval boundaries (e.g., every 60s), which allows clients to burst up to 2x their limit by sending requests at the tail of one window and the head of the next. Under load, this produced spiky, bursty `429` responses instead of a smooth throttling curve — clients would sail through for most of a window, then get slammed near the boundary.
 
-Every instruction survives. The last fix came from a blind reviewer who caught an ambiguity three self-review passes missed.
+This PR replaces the fixed-window limiter with a token-bucket implementation, which smooths request admission over time while still permitting short bursts up to the configured bucket size.
+
+### Changes
+
+- New `TokenBucketLimiter` implementing the existing `RateLimiter` interface, backed by a per-client bucket with configurable `capacity` and `refillRate` (tokens/sec).
+- Bucket state stored in Redis with an atomic Lua script for check-and-decrement to avoid race conditions under concurrent requests to the same client key.
+- Removed `FixedWindowLimiter` and its associated window-reset scheduler.
+- Config: `rateLimit.window` / `rateLimit.maxRequests` replaced with `rateLimit.capacity` / `rateLimit.refillRate`; migration mapping added to config loader so existing deployments don't need a manual config rewrite (old keys log a deprecation warning and are converted).
+- `Retry-After` header now computed from time-to-next-token rather than time-to-window-reset, giving clients more accurate backoff guidance.
+
+### Testing
+
+- Unit tests covering burst absorption, steady-state throttling, and concurrent-request race conditions on the Lua script.
+- Load-tested against staging gateway at 3x normal traffic; confirmed 429 rate dropped from ~18% (bursty spikes) to ~4% (smooth, at configured limit) with no increase in overall rejected-request count.
+- Verified config migration path against a copy of prod config.
+
+### Rollout
+
+Deploying behind the existing `rate-limiter-v2` feature flag, default off. Plan to enable for one low-traffic internal service first, monitor `429` and latency dashboards for 24h, then roll out broadly.
+```
+
+</details>
+
+<details>
+<summary><b>With zweig-write</b> (189 words)</summary>
+
+```markdown
+## Summary
+
+- Replace the fixed-window rate limiter with a token-bucket limiter on the API gateway.
+- Fixed-window resets allowed a client to burst up to 2x its limit across a window boundary (all of the previous window's quota at 23:59, all of the next window's at 00:00), which triggered clustered 429s downstream as those bursts hit backend services at once.
+- Token bucket refills continuously, so allowed throughput smooths out and clients see 429s spread proportionally to sustained load instead of in spikes.
+- Bucket capacity and refill rate are configured per client tier, matching the previous window size and request quota so default limits are unchanged.
+- Existing 429 response headers (`Retry-After`, `X-RateLimit-Remaining`) are preserved; `X-RateLimit-Remaining` now reflects available tokens instead of window count.
+
+## Test plan
+
+- [ ] Unit tests for bucket refill math, including fractional token accrual and capacity clamping.
+- [ ] Load test comparing 429 distribution under bursty traffic against the old limiter.
+- [ ] Verify per-tier limits are unchanged for a client sending steady, non-bursty traffic.
+- [ ] Confirm `Retry-After` and `X-RateLimit-Remaining` headers stay correct at the bucket boundary.
+```
+
+</details>
+
+<details>
+<summary><b>zweig-write, then zweig-refine</b> (166 words)</summary>
+
+```markdown
+## Summary
+
+- Replace the API gateway's fixed-window rate limiter with a token bucket.
+- Fixed-window resets let a client burst to 2x its limit, all of the previous window's quota at 23:59 and all of the next window's at 00:00, slamming backend services with clustered 429s.
+- Token bucket refills continuously, so throughput smooths out and 429s scale with sustained load instead of spiking at boundaries.
+- Bucket capacity and refill rate are set per client tier, matching the old window size and quota, so default limits are unchanged.
+- Existing 429 headers (`Retry-After`, `X-RateLimit-Remaining`) are preserved. `X-RateLimit-Remaining` now reflects available tokens instead of window count.
+
+## Test plan
+
+- [ ] Unit tests for bucket refill math, including fractional token accrual and capacity clamping.
+- [ ] Load test comparing 429 distribution under bursty traffic against the old limiter.
+- [ ] Verify per-tier limits are unchanged under steady traffic.
+- [ ] Confirm `Retry-After` and `X-RateLimit-Remaining` headers stay correct at the bucket boundary.
+```
+
+</details>
+
+`zweig-write` produces a separate draft, not an edit of the plain one, so the two differ in detail as well as density. `zweig-refine` edits the `zweig-write` draft in place. For a full transcript of the refine loop, see [`EXAMPLE.md`](skills/zweig-refine/EXAMPLE.md).
 
 ## The skills
 
